@@ -7,10 +7,10 @@ import (
 )
 
 func init() {
-	apis.RegisterHandler(fiber.MethodGet, "/penaltyTypes", auth.Authenticated, handleRsvp)
+	apis.RegisterHandler(fiber.MethodGet, "/penaltyTypes", auth.Public, getPenaltyTypes)
 }
 
-func handleRsvp(c *fiber.Ctx) error {
+func getPenaltyTypes(c *fiber.Ctx) error {
 
 	return c.SendString("Get Penalty Types...")
 }
