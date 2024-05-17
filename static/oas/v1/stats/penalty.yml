@@ -1,0 +1,51 @@
+paths:
+  penaltyTypes:
+    get:
+      tags:
+        - Stats
+      summary: Request penalty types
+      description: |
+        **REQUIRED PERMISSIONS:** none:none  
+        **RATE LIMIT:** TBD
+      responses:
+        200:
+          description: The response body should contain the penalty types
+          content:
+            application/json:
+              schema:
+                $ref: '#/schemas/PenaltyTypeResponse'
+        400:
+          $ref: "../common/errors.yml#/responses/BadRequest"
+  
+schemas:
+  PenaltyTypeRequest:
+    type: object
+    properties:
+      username:
+        type: string
+        description: The user's username
+        example: awesome_skater
+      password:
+        type: string
+        description: The user's password
+        example: midnight9
+
+  PenaltyTypeResponse:
+    type: object
+    properties:
+      status_code:
+        $ref: "../common/schemas.yml#/schemas/StatusCode200"
+      status_string:
+        $ref: "../common/schemas.yml#/schemas/StatusString200"
+      request_id:
+        $ref: "../common/schemas.yml#/schemas/RequestId"
+      response_data:
+        type: object
+        properties:
+          penaltyTypes:
+            type: array
+            description: The penalty types for a game
+            example:
+            - Boarding
+            - Charging
+            - "Contact to the Head"
