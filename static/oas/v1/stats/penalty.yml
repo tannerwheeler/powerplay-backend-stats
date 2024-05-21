@@ -3,34 +3,21 @@ paths:
     get:
       tags:
         - Stats
-      summary: Request penalty types
-      description: |
-        **REQUIRED PERMISSIONS:** none:none  
-        **RATE LIMIT:** TBD
+      summary: Get Penalty Types
+      description: Get all penalty types
       responses:
         200:
           description: The response body should contain the penalty types
           content:
             application/json:
               schema:
-                $ref: '#/schemas/PenaltyTypeResponse'
+                $ref: '#/schemas//GetPenaltyTypeResponse'
         400:
           $ref: "../common/errors.yml#/responses/BadRequest"
   
 schemas:
-  PenaltyTypeRequest:
-    type: object
-    properties:
-      username:
-        type: string
-        description: The user's username
-        example: awesome_skater
-      password:
-        type: string
-        description: The user's password
-        example: midnight9
 
-  PenaltyTypeResponse:
+  GetPenaltyTypeResponse:
     type: object
     properties:
       status_code:
