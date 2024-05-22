@@ -11,12 +11,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/schemas//GetPenaltyTypeResponse'
+                $ref: '#/schemas/GetPenaltyTypeResponse'
         400:
           $ref: "../common/errors.yml#/responses/BadRequest"
   
-schemas:
 
+schemas:
   GetPenaltyTypeResponse:
     type: object
     properties:
@@ -27,12 +27,31 @@ schemas:
       request_id:
         $ref: "../common/schemas.yml#/schemas/RequestId"
       response_data:
-        type: object
-        properties:
-          penaltyTypes:
-            type: array
-            description: The penalty types for a game
-            example:
-            - Boarding
-            - Charging
-            - "Contact to the Head"
+        type: array
+        items:
+          type: object
+          properties:
+            id: 
+              type: int
+              description: Id of penalty type
+              example: 1
+            created_at:
+              type: string
+              description: Time penalty type was created 
+              example: "2024-05-22T03:08:30.187262Z"
+            updated_at:
+              type: string
+              description: Time penalty type was updated
+              example: "2024-05-22T03:08:30.187262Z"
+            name: 
+              type: string
+              description: Name of penalty
+              example: Hooking
+            duration:  
+              type: int
+              description: Duration of penalty
+              example: 2
+            severity: 
+              type: string
+              description: Severity of the penalty
+              example: minor
