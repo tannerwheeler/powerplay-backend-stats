@@ -15,6 +15,8 @@ paths:
     $ref: "./stats/penalty.yml#/paths/penaltyTypes"
   /user:
     $ref: "./users/users.yml#/paths/user"
+  /penalties:
+    $ref: "./stats/penalties.yml#/paths/penalties"
 
   # /[URL path]
     #$ref: "./[Relative path starting from v1]#/paths/[yml path]"
