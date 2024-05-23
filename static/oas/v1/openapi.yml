@@ -13,6 +13,8 @@ paths:
     $ref: "./auth/auth.yml#/paths/auth"
   /penaltyTypes:
     $ref: "./stats/penalty.yml#/paths/penaltyTypes"
+  /shotsongoal:
+    $ref: "./stats/shotsongoal.yml#/paths/shotsOnGoal"   
   /user:
     $ref: "./users/users.yml#/paths/user"
   /penalties:
