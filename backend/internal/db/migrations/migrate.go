@@ -80,7 +80,6 @@ func Run(db *gorm.DB) error {
 			&models.League{},
 			&models.Team{},
 			&models.Roster{},
-			&models.Staff{},
 			&models.Game{},
 			&models.Season{},
 			&models.Registration{},
