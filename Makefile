@@ -6,11 +6,6 @@ migrate:
 	@docker-compose -f docker-compose.yml up -d
 	@docker-compose -f docker-compose.yml exec backend bash -c "cd /app/backend && go run . -migrate" || (echo "Migration failed, halting" && exit 1)
 
-nuke-migrations:
-	@echo "💥 Truncating migrations table"
-	@docker-compose -f docker-compose.yml exec database bash -c "psql -d powerplay -c 'TRUNCATE migrations';"
-	@$(MAKE) migrate
-
 production_image:
 	docker build -f build/Dockerfile.production -t powerplay .
 
