@@ -21,7 +21,6 @@ func init() {
 
 func getPenaltyTypes(c *fiber.Ctx) error {
 
-	log.Debug("Handling getting all penalty types")
 	db := db.GetSession(c)
 	penaltyTypes, err := db.GetPenaltyTypes()
 	if err != nil {
