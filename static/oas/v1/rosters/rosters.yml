@@ -1,45 +1,67 @@
 paths:
-  roster:
+  rosters:
     get: 
       tags:
         - roster
-      summary: Gets a roster
+      summary: Gets all rosters
       requestBody:
-        description: Get a roster given team and season name
+        description: Get all rosters
         content:
           application/json:
             schema:
-              $ref: '#/schemas/GetRoster' 
+              $ref: '#/schemas/GetRosters' 
       responses:
         200:
-          description: Successfully get roster
+          description: Successfully get all rosters
           content:
             application/json:
               schema:
                 $ref: '#/schemas/RosterGetResponse'
         400:
           $ref: "./common/errors.yml#/responses/BadRequest"                 
-    post:
-      tags:
-        - roster
-      summary: Creates a roster
-      requestBody:
-        description: Create roster object
-        content:
-          application/json:
-            schema:
-              $ref: '#/schemas/CreateRoster'
-      responses:
-        200:
-          description: Successfully created roster
-          content:
-            application/json:
-              schema:
-                $ref: '#/schemas/RosterCreationResponse'
-        400:
-          $ref: "./common/errors.yml#/responses/BadRequest"
+    # post:
+    #   tags:
+    #     - roster
+    #   summary: Creates a roster
+    #   requestBody:
+    #     description: Create roster object
+    #     content:
+    #       application/json:
+    #         schema:
+    #           $ref: '#/schemas/CreateRoster'
+    #   responses:
+    #     200:
+    #       description: Successfully created roster
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: '#/schemas/RosterCreationResponse'
+    #     400:
+    #       $ref: "./common/errors.yml#/responses/BadRequest"
 
 schemas:
+  GetRosters:
+    type: object
+    properties:
+      status_code:
+        $ref: "../common/schemas.yml#/schemas/StatusCode200"
+      status_string:
+        $ref: "../common/schemas.yml#/schemas/StatusString200"
+      request_id:
+        $ref: "../common/schemas.yml#/schemas/RequestId"
+      response_data:
+        type: array
+        items: 
+          type: object
+          properties: 
+            team: 
+              $ref: "../team/team.yml#/Team/"
+            season: 
+              $ref: "../season/season.yml#/Season/"
+            players: 
+              $ref: "../users/users.yml#/User/"
+                       
+
   CreateRoster:
     type: object
     properties:

@@ -8,9 +8,9 @@ import (
 )
 
 func init() {
-	apis.RegisterHandler(fiber.MethodGet, "/roster", auth.Public, getRoster)
+	apis.RegisterHandler(fiber.MethodGet, "/rosters", auth.Public, getRosters)
 }
 
-func getRoster(c *fiber.Ctx) error {
+func getRosters(c *fiber.Ctx) error {
 	return responder.NotYetImplemented(c)
 }
