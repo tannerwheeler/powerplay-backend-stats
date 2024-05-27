@@ -96,15 +96,16 @@ func Run(db *gorm.DB) error {
 		log.Info("Initializing powerplay schema")
 		err := tx.AutoMigrate(
 			&models.User{},
+			&models.Season{},
 			&models.League{},
 			&models.Team{},
 			&models.Roster{},
-			&models.Game{},
-			&models.Season{},
-			&models.Registration{},
 			&models.Venue{},
+			&models.Game{},
+			&models.Registration{},
 			&models.KeyRecord{},
 			&models.Goal{},
+			&models.PenaltyType{},
 			&models.Penalty{},
 		)
 		if err != nil {
