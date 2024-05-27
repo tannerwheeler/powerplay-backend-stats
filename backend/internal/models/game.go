@@ -19,13 +19,17 @@ type Game struct {
 	Status   Status    `json:"status"`
 
 	HomeTeam            Team   `json:"home_team"`
+	HomeTeamID          Team   `json:"home_team_id"`
 	HomeTeamRoster      Roster `json:"home_team_roster"`
+	HomeTeamRosterID    uint   `json:"home_team_roster_id"`
 	HomeTeamLockerRoom  string `json:"home_team_locker_room"`
 	HomeTeamShotsOnGoal int    `json:"home_team_shots_on_goal"`
 	HomeTeamScore       int    `json:"home_team_score"`
 
 	AwayTeam            Team   `json:"away_team"`
+	AwayTeamID          Team   `json:"away_team_id"`
 	AwayTeamRoster      Roster `json:"away_team_roster"`
+	AwayTeamRosterID    uint   `json:"away_team_roster_id"`
 	AwayTeamLockerRoom  string `json:"away_team_locker_room"`
 	AwayTeamShotsOnGoal int    `json:"away_team_shots_on_goal"`
 	AwayTeamScore       int    `json:"away_team_score"`
