@@ -3,6 +3,7 @@ package league
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/jak103/powerplay/internal/db"
+	"github.com/jak103/powerplay/internal/models"
 	"github.com/jak103/powerplay/internal/server/apis"
 	"github.com/jak103/powerplay/internal/server/services/auth"
 	"github.com/jak103/powerplay/internal/utils/locals"
@@ -11,6 +12,7 @@ import (
 
 func init() {
 	apis.RegisterHandler(fiber.MethodGet, "/leagues", auth.Public, getLeaguesHandler)
+	apis.RegisterHandler(fiber.MethodPost, "/leagues", auth.Public, postLeaguesHandler)
 }
 
 func getLeaguesHandler(c *fiber.Ctx) error {
@@ -24,4 +26,24 @@ func getLeaguesHandler(c *fiber.Ctx) error {
 	}
 
 	return responder.OkWithData(c, leagues)
+}
+
+func postLeaguesHandler(c *fiber.Ctx) error {
+	log := locals.Logger(c)
+
+	leaguesRequest := &models.League{}
+	err := c.BodyParser(leaguesRequest)
+	if err != nil {
+		log.WithErr(err).Alert("Failed to parse leagues request payload")
+		return responder.BadRequest(c, "Failed to parse leagues request payload")
+	}
+
+	db := db.GetSession(c)
+	err = db.CreateLeagues(leaguesRequest)
+	if err != nil {
+		log.WithErr(err).Alert("Failed to save leagues request")
+		return responder.InternalServerError(c)
+	}
+
+	return responder.Ok(c)
 }
