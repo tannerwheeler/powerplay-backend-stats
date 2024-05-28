@@ -4,7 +4,10 @@ import "time"
 
 type Season struct {
 	DbModel
-	End   time.Time `json:"end"`
-	Name  string    `json:"name"`
-	Start time.Time `json:"start"`
+	Name          string         `json:"name"`
+	Start         time.Time      `json:"start"`
+	End           time.Time      `json:"end"`
+	Registrations []Registration `json:"registrations"`
+	Schedule      []Game         `json:"schedule"`
+	Leagues       []League       `json:"leagues"`
 }
