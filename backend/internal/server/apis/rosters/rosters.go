@@ -12,5 +12,8 @@ func init() {
 }
 
 func getRosters(c *fiber.Ctx) error {
+	// TODO - look at optional params 
+	// c.ParamsParser()
+	// c.QueryParser()
 	return responder.NotYetImplemented(c)
 }
