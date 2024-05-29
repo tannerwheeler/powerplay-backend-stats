@@ -57,7 +57,17 @@ func init() {
 				return tx.AutoMigrate(&models.ShotOnGoal{})
 			},
 			Rollback: func(tx *gorm.DB) error {
+				// TODO: Should this be named something else?
 				return tx.Migrator().DropTable("goals")
+			},
+		},
+		&gormigrate.Migration{
+			ID: "create_seasons_table",
+			Migrate: func(tx *gorm.DB) error {
+				return tx.AutoMigrate(&models.Season{})
+			},
+			Rollback: func(tx *gorm.DB) error {
+				return tx.Migrator().DropTable("seasons")
 			},
 		},
 		// Add more migrations here
