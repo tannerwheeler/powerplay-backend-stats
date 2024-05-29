@@ -4,19 +4,13 @@ paths:
       tags:
         - roster
       summary: Gets all rosters
-      requestBody:
-        description: Get all rosters
-        content:
-          application/json:
-            schema:
-              $ref: '#/schemas/GetRosters' 
       responses:
         200:
           description: Successfully get all rosters
           content:
             application/json:
               schema:
-                $ref: '#/schemas/RosterGetResponse'
+                $ref: '#/schemas/GetRosters'
         400:
           $ref: "./common/errors.yml#/responses/BadRequest"                 
     # post:
@@ -54,112 +48,13 @@ schemas:
         items: 
           type: object
           properties: 
-            team: 
-              $ref: "../team/team.yml#/Team/"
-            season: 
-              $ref: "../season/season.yml#/Season/"
+            captainId: 
+              type: int
+              example: 1
+            captain: 
+              $ref: "../users/users.yml#/schemas/User"
             players: 
-              $ref: "../users/users.yml#/User/"
-                       
-
-  CreateRoster:
-    type: object
-    properties:
-      team_name:
-        type: string
-        example: "Mighty Ducks"
-      season_name:
-        type: string
-        example: "Summer 2024"
-
-  AddToRoster:
-    type: object
-    properties:
-      team_name:
-        type: string
-        example: "Mighty Ducks"
-      season_name:
-        type: string
-        example: "Summer 2024"
-
-  GetRoster:
-    type: object
-    properties:
-      team_name:
-        type: string
-        example: "Mighty Ducks"
-      season_name:
-        type: string
-        example: "Summer 2024"
-
-  RosterCreationResponse:
-    type: object
-    properties:
-      status_code:
-        $ref: "../common/schemas.yml#/schemas/StatusCode200"
-      status_string:
-        $ref: "../common/schemas.yml#/schemas/StatusString200"
-      request_id:
-        $ref: "../common/schemas.yml#/schemas/RequestId"
-
-  RosterAdditionResponse:
-    type: object
-    properties:
-      status_code:
-        $ref: "../common/schemas.yml#/schemas/StatusCode200"
-      status_string:
-        $ref: "../common/schemas.yml#/schemas/StatusString200"
-      request_id:
-        $ref: "../common/schemas.yml#/schemas/RequestId"
-
-  RosterGetResponse:
-    type: object
-    properties:
-      message:
-        type: string
-        example: Successfully get roster
-      status_code:
-        $ref: "../common/schemas.yml#/schemas/StatusCode200"
-      status_string:
-        $ref: "../common/schemas.yml#/schemas/StatusString200"
-      request_id:
-        $ref: "../common/schemas.yml#/schemas/RequestId"
-      response_data:
-        type: object
-        properties:
-          players:
-            type: object
-            properties:
-             first_name: 
-                type: string
-                example: Billy
-              last_name: 
-                type: string
-                example: Bob
-              email: 
-                type: string
-                example: billy.bob@mail.com
-              phone: 
-                type: string
-                example: 444-444-4444
-              skill_level: 
-                type: int
-                example: 2
-          staff:
-            type: object
-            properties:
-              first_name: 
-                type: string
-                example: Ray
-              last_name: 
-                type: string
-                example: Allen
-              email: 
-                type: string
-                example: ray.allen@mail.com
-              phone: 
-                type: string
-                example: 555-555-5555
-              skill_level: 
-                type: int
-                example: 1
+              type: array
+              properties:
+                player:
+                  $ref: "../users/users.yml#/schemas/User"          
