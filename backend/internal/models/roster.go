@@ -6,7 +6,3 @@ type Roster struct {
 	Captain   User    `json:"captain"`
 	CaptainID uint    `json:"captain_id"`
 }
-
-type RosterQuery struct {
-	TeamName string `query:"team_name"`
-}
