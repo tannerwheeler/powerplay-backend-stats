@@ -3,7 +3,7 @@ paths:
     get: 
       tags:
         - roster
-      summary: Gets all rosters
+      summary: All rosters
       responses:
         200:
           description: Successfully get all rosters
@@ -12,7 +12,7 @@ paths:
               schema:
                 $ref: '#/schemas/GetRosters'
         400:
-          $ref: "./common/errors.yml#/responses/BadRequest"                 
+          $ref: "../common/errors.yml#/responses/BadRequest"                 
     # post:
     #   tags:
     #     - roster
@@ -49,12 +49,11 @@ schemas:
           type: object
           properties: 
             captainId: 
-              type: int
+              type: integer
               example: 1
             captain: 
               $ref: "../users/users.yml#/schemas/User"
             players: 
               type: array
-              properties:
-                player:
-                  $ref: "../users/users.yml#/schemas/User"          
+              items: 
+                $ref: "../user/users.yml#/schemas/User"
