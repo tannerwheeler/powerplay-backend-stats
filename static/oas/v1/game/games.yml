@@ -12,9 +12,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './game/games.yml#/components/schemas/GetGamesResponse'
+                $ref: '#/components/schemas/GetGamesResponse'
         400:
-          $ref: "./common/errors.yml#/responses/BadRequest"
+          $ref: "../common/errors.yml#/responses/BadRequest"
     post:
       tags:
         - Games
@@ -27,14 +27,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './game/games.yml#/components/schemas/Game'
+              $ref: '#/components/schemas/Game'
       responses:
         200:
           description: Game created successfully
         400:
-          $ref: "./common/errors.yml#/responses/BadRequest"
+          $ref: "../common/errors.yml#/responses/BadRequest"
         500:
-          $ref: "./common/errors.yml#/responses/BadRequest"
+          $ref: "../common/errors.yml#/responses/BadRequest"
   /games/{gameId}:
     get:
       tags:
