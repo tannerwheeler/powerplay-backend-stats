@@ -60,12 +60,12 @@ func handleGetLogoByID(c *fiber.Ctx) error {
 
 	log := locals.Logger(c)
 	db := db.GetSession(c)
-	penalties, err := db.GetLogoByID(uint(id)) // Not sure why this required an additional cast
+	logo, err := db.GetLogoByID(uint(id)) // Not sure why this required an additional cast
 	if err != nil {
-		log.WithErr(err).Alert("Failed to get all penalties from the database")
-		return err
+		log.WithErr(err).Alert("Failed to get the logo from the database")
+		return responder.InternalServerError(c)
 	}
 
 	// Send JSON response
-	return responder.OkWithData(c, penalties)
+	return responder.OkWithData(c, logo)
 }
