@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"github.com/jak103/powerplay/internal/db/seeders/fake_data"
+	"github.com/jak103/powerplay/internal/models"
 
 	"github.com/jak103/powerplay/internal/config"
 	"github.com/jak103/powerplay/internal/db"
@@ -34,14 +35,25 @@ func runSeeds() {
 }
 
 func runFakeDataSeeds() {
-	seeders := []ppseeders.Seeder{
-		fake_data.SeasonSeeder{},
+	// Initialize seeders
+	seasonSeeder := fake_data.SeasonSeeder{}
+	leagueSeeder := fake_data.LeagueSeeder{}
+
+	// Seed Season
+	season, err := seasonSeeder.Seed(db.GetDB())
+	if err != nil {
+		log.WithErr(err).Alert("Failed to seed Season: %v", err)
+		return
 	}
-	// Seed the database
-	if err := db.RunSeeders(seeders); err != nil {
-		log.WithErr(err).Alert("Failed to seed database with test data: %v", err)
+	log.Info("Successfully seeded Season")
+
+	// Seed League with SeasonID
+	_, err = leagueSeeder.Seed(db.GetDB(), season.(models.Season).ID)
+	if err != nil {
+		log.WithErr(err).Alert("Failed to seed League: %v", err)
+		return
 	}
-	log.Info("Successfully seeded database with test data")
+	log.Info("Successfully seeded League")
 }
 
 func main() {

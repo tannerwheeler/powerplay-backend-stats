@@ -9,7 +9,7 @@ import (
 
 type SeasonSeeder struct{}
 
-func (s SeasonSeeder) Seed(db *gorm.DB) error {
+func (s SeasonSeeder) Seed(db *gorm.DB, args ...interface{}) (interface{}, error) {
 	season := models.Season{
 		Name:          faker.Word(),
 		Start:         time.Now(),
@@ -19,7 +19,7 @@ func (s SeasonSeeder) Seed(db *gorm.DB) error {
 		Leagues:       []models.League{},
 	}
 	if err := db.FirstOrCreate(&season, season).Error; err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return season, nil
 }
