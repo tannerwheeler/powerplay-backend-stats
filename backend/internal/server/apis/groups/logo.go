@@ -1,4 +1,4 @@
-package logo
+package groups
 
 import (
 	"strconv"
