@@ -9,7 +9,7 @@ func (s session) GetLeagues() ([]models.League, error) {
 	return resultsOrError(leagues, err)
 }
 
-func (s session) CreateLeagues(request *models.League) error {
+func (s session) CreateLeague(request *models.League) error {
 	result := s.connection.Create(request)
 	return result.Error
 }

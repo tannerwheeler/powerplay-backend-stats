@@ -12,7 +12,7 @@ import (
 
 func init() {
 	apis.RegisterHandler(fiber.MethodGet, "/leagues", auth.Public, getLeaguesHandler)
-	apis.RegisterHandler(fiber.MethodPost, "/leagues", auth.Public, postLeaguesHandler)
+	apis.RegisterHandler(fiber.MethodPost, "/leagues", auth.Public, postLeagueHandler)
 }
 
 func getLeaguesHandler(c *fiber.Ctx) error {
@@ -28,18 +28,18 @@ func getLeaguesHandler(c *fiber.Ctx) error {
 	return responder.OkWithData(c, leagues)
 }
 
-func postLeaguesHandler(c *fiber.Ctx) error {
+func postLeagueHandler(c *fiber.Ctx) error {
 	log := locals.Logger(c)
 
-	leaguesRequest := &models.League{}
-	err := c.BodyParser(leaguesRequest)
+	leagueRequest := &models.League{}
+	err := c.BodyParser(leagueRequest)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to parse leagues request payload")
 		return responder.BadRequest(c, "Failed to parse leagues request payload")
 	}
 
 	db := db.GetSession(c)
-	err = db.CreateLeagues(leaguesRequest)
+	err = db.CreateLeague(leagueRequest)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to save leagues request")
 		return responder.InternalServerError(c)
