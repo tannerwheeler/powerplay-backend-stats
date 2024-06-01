@@ -2,7 +2,7 @@ paths:
   seasons:
     get:
       tags:
-        - Season
+        - Seasons
       summary: Get All Seasons
       description: |
         Get all seasons
@@ -17,13 +17,13 @@ paths:
           $ref: "../common/errors.yml#/responses/BadRequest"
     post:
       tags:
-        - Season
+        - Seasons
       summary: Season post request
       description: |
         **REQUIRED PERMISSIONS:** none:none  
         **RATE LIMIT:** TBD
       requestBody:
-        description: The request body should contain a name, start time, end time, registrations, schedule, and leagues
+        description: Does not create schedules, leagues, or registrations.
         required: true
         content:
           application/json:
@@ -93,48 +93,6 @@ components:
           format: date-time
           description: End time for the season
           example: "2023-09-01T00:00:00Z"
-        registrations:
-          type: array
-          description: The registrations for the season
-          items:
-            type: object
-            example: {}
-          example: []
-        schedule:
-          type: array
-          description: The schedule for the season
-          items:
-            type: object
-            example: {}
-          example: []
-        leagues:
-          type: array
-          description: The leagues associated with the season
-          items:
-            type: object
-            properties:
-              correlation_id:
-                type: string
-                description: The correlation ID of the league
-                example: "abc-123-def"
-              season_id:
-                type: integer
-                description: The ID of the season
-                example: 1
-              name:
-                type: string
-                description: The name of the league
-                example: "Premier League"
-              teams:
-                type: array
-                description: The teams in the league
-                items:
-                  type: object
-          example:
-            - correlation_id: "abc-123-def"
-              season_id: 1
-              name: "Premier League"
-              teams: []
 
     SeasonResponse:
       type: object

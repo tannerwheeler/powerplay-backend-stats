@@ -1,16 +1,13 @@
-
 package season
 
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/jak103/powerplay/internal/db"
+	"github.com/jak103/powerplay/internal/models"
 	"github.com/jak103/powerplay/internal/server/apis"
 	"github.com/jak103/powerplay/internal/server/services/auth"
 	"github.com/jak103/powerplay/internal/utils/locals"
 	"github.com/jak103/powerplay/internal/utils/responder"
-	"github.com/jak103/powerplay/internal/models"
-
-
 )
 
 func init() {
@@ -31,34 +28,27 @@ func getSeasonsHandler(c *fiber.Ctx) error {
 	return responder.OkWithData(c, seasons)
 }
 
-
-
-
-
 func postSeasonsHandler(c *fiber.Ctx) error {
 	log := locals.Logger(c)
-	log.Debug("body: %q", c.Request().Body())
 	seasonPostRequest := new(models.Season)
 	err := c.BodyParser(seasonPostRequest)
-	
-	// If valid structure in post request, continue on
-	if err != nil{
+
+	if err != nil {
 		log.WithErr(err).Error("Failed to parse Season POST request.")
 		return err
 	}
 
-	// Connect to database and insert season
 	db := db.GetSession(c)
 	record, err := db.SaveSeason(seasonPostRequest)
-	
-	if err != nil{
+
+	if err != nil {
 		log.WithErr(err).Alert("Failed to parse season request payload")
 		return responder.InternalServerError(c)
 	}
 
 	if record == nil {
-		return responder.BadRequest(c, "Could not post season into database")
+		return responder.BadRequest(c, "Could not save season to database")
 	}
-	
+
 	return responder.Ok(c)
 }

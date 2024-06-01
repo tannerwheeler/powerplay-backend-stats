@@ -61,15 +61,7 @@ func init() {
 				return tx.Migrator().DropTable("goals")
 			},
 		},
-		&gormigrate.Migration{
-			ID: "create_seasons_table",
-			Migrate: func(tx *gorm.DB) error {
-				return tx.AutoMigrate(&models.Season{})
-			},
-			Rollback: func(tx *gorm.DB) error {
-				return tx.Migrator().DropTable("seasons")
-			},
-		},
+
 		// Add more migrations here
 	)
 }
@@ -117,6 +109,7 @@ func Run(db *gorm.DB) error {
 			&models.Goal{},
 			&models.PenaltyType{},
 			&models.Penalty{},
+			&models.Season{},
 		)
 		if err != nil {
 			return err
