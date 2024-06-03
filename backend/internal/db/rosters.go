@@ -4,10 +4,10 @@ import (
 	"github.com/jak103/powerplay/internal/models"
 )
 
-func (s session) GetRoster(rosterName string) (*models.Roster, error) {
+func (s session) GetRoster(capt_id uint) (*models.Roster, error) {
 	roster := &models.Roster{}
 
-	result := s.connection.Where("roster_name = ?", rosterName).First(roster)
+	result := s.connection.Where("captain_id = ?", capt_id).First(roster)
 
 	return resultOrError(roster, result)
 }
