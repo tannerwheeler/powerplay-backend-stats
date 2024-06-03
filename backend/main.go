@@ -38,6 +38,8 @@ func runFakeDataSeeds() {
 	// Initialize seeders
 	seasonSeeder := fake_data.SeasonSeeder{}
 	leagueSeeder := fake_data.LeagueSeeder{}
+	teamSeeder := fake_data.TeamSeeder{}
+	venueSeeder := fake_data.VenueSeeder{}
 
 	// Seed Season
 	season, err := seasonSeeder.Seed(db.GetDB())
@@ -48,12 +50,30 @@ func runFakeDataSeeds() {
 	log.Info("Successfully seeded Season")
 
 	// Seed League with SeasonID
-	_, err = leagueSeeder.Seed(db.GetDB(), season.(models.Season).ID)
+	leagues, err := leagueSeeder.Seed(db.GetDB(), season.(models.Season).ID)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to seed League: %v", err)
 		return
 	}
 	log.Info("Successfully seeded League")
+
+	// Seed Teams for each League
+	for _, league := range leagues.([]models.League) {
+		_, err = teamSeeder.Seed(db.GetDB(), league.ID)
+		if err != nil {
+			log.WithErr(err).Alert("Failed to seed Teams for League %d: %v", league.ID, err)
+			return
+		}
+		log.Info("Successfully seeded Teams for League %d", league.ID)
+	}
+
+	// Seed Venues
+	_, err = venueSeeder.Seed(db.GetDB())
+	if err != nil {
+		log.WithErr(err).Alert("Failed to seed Venues: %v", err)
+		return
+	}
+	log.Info("Successfully seeded Venues")
 }
 
 func main() {
