@@ -3,14 +3,14 @@ paths:
     post: 
       tags: 
         - roster
-      summary: Create Roster
-      parameters:
-        - in: query
-          name: capt_email
-          description: Email of the captain 
-          schema:
-            type: string
-            example: test@test.com     
+      summary: Create Roster  
+      requestBody:
+        description: A JSON object with a valid roster
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/schemas/PostRosterRequest"  
       responses: 
         200:
           description: Successfully create a roster by captain
@@ -30,31 +30,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/schemas/GetRosters'
+                $ref: '#/schemas/GetRostersResponse'
         400:
           $ref: "../common/errors.yml#/responses/BadRequest"                 
-    # post:
-    #   tags:
-    #     - roster
-    #   summary: Creates a roster
-    #   requestBody:
-    #     description: Create roster object
-    #     content:
-    #       application/json:
-    #         schema:
-    #           $ref: '#/schemas/CreateRoster'
-    #   responses:
-    #     200:
-    #       description: Successfully created roster
-    #       content:
-    #         application/json:
-    #           schema:
-    #             $ref: '#/schemas/RosterCreationResponse'
-    #     400:
-    #       $ref: "./common/errors.yml#/responses/BadRequest"
 
 schemas:
-  GetRosters:
+  GetRostersResponse:
     type: object
     properties:
       status_code:
@@ -77,11 +58,6 @@ schemas:
               type: array
               items: 
                 $ref: "../user/users.yml#/schemas/User"
-  PostRosterByUser:
-    properties:
-      capt_email: 
-        type: string
-        example: test@test.com
   PostRosterResponse:
     type: object
     properties:
@@ -91,3 +67,19 @@ schemas:
         $ref: "../common/schemas.yml#/schemas/StatusString200"
       request_id:
         $ref: "../common/schemas.yml#/schemas/RequestId"
+  PostRosterRequest:
+    type: object
+    properties:
+      captain_id:
+        type: integer
+        description: ID associated to the captain
+        example: 1
+      players: 
+        type: array
+        items: 
+          type: integer
+        description: User IDs associated with the players
+        example: 
+          - 2
+          - 3
+          - 4 
