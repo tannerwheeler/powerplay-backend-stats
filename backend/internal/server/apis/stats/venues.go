@@ -25,21 +25,18 @@ func postVenueHandler (c *fiber.Ctx) error {
 		log.WithErr(err).Error("Failed to parse venue request payload")
 		return responder.BadRequest(c, "Failed to parse venue request payload")
 	}
+
 	db := db.GetSession(c)
-	record, err := db.SaveVenue(venueRequest)
+	_,  err = db.SaveVenue(venueRequest)
 	
 	if err != nil {
 		log.WithErr(err).Error("Failed to save venue request")
 		return responder.InternalServerError(c)
 	}
 
-	if record == nil {
-		return responder.BadRequest(c, "Could not post venue into database")
-	}
 	return responder.Ok(c)
 }
 
-// todo finish getVenuesHandler
 func getVenuesHandler (c *fiber.Ctx) error {
 	log := locals.Logger(c)
 	db := db.GetSession(c)
