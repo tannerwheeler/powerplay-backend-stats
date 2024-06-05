@@ -9,6 +9,7 @@ import (
 	"github.com/jak103/powerplay/internal/utils/locals"
 	"github.com/jak103/powerplay/internal/utils/log"
 	"github.com/jak103/powerplay/internal/utils/responder"
+	"github.com/go-playground/validator/v10"
 )
 
 func init() {
@@ -52,6 +53,11 @@ func postPenaltyHandler(c *fiber.Ctx) error {
 	if err != nil {
 		log.WithErr(err).Alert("Failed to parse penalty request payload")
 		return responder.BadRequest(c, "Failed to parse penalty request payload")
+	}
+	validate := validator.New()
+	err = validate.Struct(penaltyRequest)
+	if err != nil {
+		return responder.BadRequest(c, "Failed to validate request")
 	}
 
 	db := db.GetSession(c)
