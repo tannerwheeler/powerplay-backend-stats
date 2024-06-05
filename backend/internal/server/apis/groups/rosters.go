@@ -6,8 +6,8 @@ import (
 	"github.com/jak103/powerplay/internal/models"
 	"github.com/jak103/powerplay/internal/server/apis"
 	"github.com/jak103/powerplay/internal/server/services/auth"
-	"github.com/jak103/powerplay/internal/utils/log"
 	"github.com/jak103/powerplay/internal/utils/locals"
+	"github.com/jak103/powerplay/internal/utils/log"
 	"github.com/jak103/powerplay/internal/utils/responder"
 )
 
@@ -18,8 +18,8 @@ func init() {
 
 func postRoster(c *fiber.Ctx) error {
 	type RosterRequest struct {
-		CaptainEmail string
-		PlayerEmails []string
+		CaptainEmail string   `json:"captain_email"`
+		PlayerEmails []string `json:"player_emails"`
 	}
 
 	log := locals.Logger(c)
@@ -34,6 +34,7 @@ func postRoster(c *fiber.Ctx) error {
 
 	db := db.GetSession(c)
 
+	log.Debug("Captain : %s", body.CaptainEmail)
 	capt, err := db.GetUserByEmail(body.CaptainEmail)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to get captain")
@@ -45,6 +46,7 @@ func postRoster(c *fiber.Ctx) error {
 		return responder.InternalServerError(c)
 	}
 
+	log.Debug("Players : %v", body.PlayerEmails)
 	players, err := db.GetUserByEmails(body.PlayerEmails)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to get players")
@@ -52,9 +54,9 @@ func postRoster(c *fiber.Ctx) error {
 	}
 
 	roster := models.Roster{
-		CaptainId: capt.ID,
-		Captain: capt,
-		Players: players,
+		CaptainID: capt.ID,
+		Captain:   *capt,
+		Players:   players,
 	}
 
 	err = db.CreateRoster(&roster)

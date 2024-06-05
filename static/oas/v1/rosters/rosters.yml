@@ -70,16 +70,15 @@ schemas:
   PostRosterRequest:
     type: object
     properties:
-      captain_id:
-        type: integer
-        description: ID associated to the captain
-        example: 1
-      players: 
+      captain_email:
+        type: string
+        description: Email associated to the captain
+        example: test1@test.com
+      player_emails: 
         type: array
         items: 
-          type: integer
-        description: User IDs associated with the players
+          type: string
+        description: User emails associated with the players
         example: 
-          - 2
-          - 3
-          - 4 
+          - test2@test.com
+          - test3@test.com

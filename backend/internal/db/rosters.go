@@ -21,7 +21,7 @@ func (s session) CreateRoster(roster *models.Roster) error {
 func (s session) GetUserByEmail(email string) (*models.User, error) {
 	user := &models.User{}
 
-	err := s.connection.Find(&user, email)
+	err := s.connection.Find(&user, "email = ?", email)
 
 	return resultOrError(user, err)
 }
@@ -29,7 +29,7 @@ func (s session) GetUserByEmail(email string) (*models.User, error) {
 func (s session) GetUserByEmails(emails []string) ([]*models.User, error) {
 	users := make([]*models.User, 0)
 
-	err := s.connection.Find(users, emails)
+	err := s.connection.Where("email IN (?)", emails).Find(&users)
 
 	return resultsOrError(users, err)
 }
