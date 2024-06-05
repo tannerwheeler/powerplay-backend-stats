@@ -15,7 +15,7 @@ paths:
   /penaltyTypes:
     $ref: "./stats/penalties.yml#/paths/penaltyTypes"
   /leagues:
-    $ref: "./leagues/leagues.yaml#/paths/leagues"
+    $ref: "./groups/leagues.yml#/paths/leagues"
   /penalties:
     $ref: "./stats/penalties.yml#/paths/penalties"
   /user:
@@ -26,7 +26,7 @@ paths:
   /goals:
     $ref: "./stats/goal.yml#/paths/goals"
   /seasons:
-    $ref: "./season/season.yml#/paths/seasons"
+    $ref: "./groups/season.yml#/paths/seasons"
 
 components:
   securitySchemes:

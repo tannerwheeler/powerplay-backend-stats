@@ -1,4 +1,4 @@
-package league
+package groups
 
 import (
 	"github.com/gofiber/fiber/v2"

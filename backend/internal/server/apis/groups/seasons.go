@@ -1,4 +1,4 @@
-package season
+package groups
 
 import (
 	"github.com/gofiber/fiber/v2"
