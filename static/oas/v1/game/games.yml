@@ -143,10 +143,10 @@ components:
           example: 3
         home_team_roster_id:
           type: integer
-          example: 2
+          example: 1
         away_team_id:
           type: integer
-          example: 1
+          example: 2
         away_team_locker_room:
           type: string
           example: "Locker Room A"
@@ -164,41 +164,20 @@ components:
           example: 1
         league_id:
           type: integer
-          example: 1
+          example: 3
         manager_on_call_id:
           type: integer
-          example: 3
+          example: 1
         primary_referee_id:
           type: integer
-          example: 4
+          example: 1
         score_keeper_id:
           type: integer
-          example: 5
+          example: 1
         secondary_referee_id:
           type: integer
-          example: 6
+          example: 1
         season_id:
           type: integer
           example: 1
-        home_team:
-          $ref: '#/components/schemas/Team'
-        away_team:
-          $ref: '#/components/schemas/Team'
-        home_team_roster:
-          $ref: '#/components/schemas/Roster'
-        away_team_roster:
-          $ref: '#/components/schemas/Roster'
-        venue:
-          $ref: '#/components/schemas/Venue'
-        league:
-          $ref: '#/components/schemas/League'
-        manager_on_call:
-          $ref: '#/components/schemas/User'
-        primary_referee:
-          $ref: '#/components/schemas/User'
-        score_keeper:
-          $ref: '#/components/schemas/User'
-        secondary_referee:
-          $ref: '#/components/schemas/User'
-        season:
-          $ref: '#/components/schemas/Season'
+
