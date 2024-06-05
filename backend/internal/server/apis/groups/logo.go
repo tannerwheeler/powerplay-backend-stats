@@ -1,21 +1,18 @@
 package groups
 
 import (
-	"strconv"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/jak103/powerplay/internal/db"
 	"github.com/jak103/powerplay/internal/models"
 	"github.com/jak103/powerplay/internal/server/apis"
 	"github.com/jak103/powerplay/internal/server/services/auth"
 	"github.com/jak103/powerplay/internal/utils/locals"
-	"github.com/jak103/powerplay/internal/utils/log"
 	"github.com/jak103/powerplay/internal/utils/responder"
 )
 
 func init() {
 	apis.RegisterHandler(fiber.MethodPost, "/logos", auth.Public, handleLogoUpload)
-	apis.RegisterHandler(fiber.MethodGet, "/logos/:id:int", auth.Public, handleGetLogoByID)
+	apis.RegisterHandler(fiber.MethodGet, "/logos/:id<int>", auth.Public, handleGetLogoByID)
 }
 
 func handleLogoUpload(c *fiber.Ctx) error {
@@ -51,16 +48,10 @@ func handleLogoUpload(c *fiber.Ctx) error {
 }
 
 func handleGetLogoByID(c *fiber.Ctx) error {
-	idStr := c.Params("id")
-	id, err := strconv.ParseUint(idStr, 10, 32)
-	if err != nil {
-		log.WithErr(err).Alert("Invalid ID")
-		return responder.BadRequest(c, "Invalid ID")
-	}
-
 	log := locals.Logger(c)
 	db := db.GetSession(c)
-	logo, err := db.GetLogoByID(uint(id)) // Not sure why this required an additional cast
+	id := c.Params("id")
+	logo, err := db.GetLogoByID(id)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to get the logo from the database")
 		return responder.InternalServerError(c)

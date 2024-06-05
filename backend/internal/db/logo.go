@@ -7,8 +7,8 @@ func (s session) SaveLogo(logo *models.Logo) error {
 	return result.Error
 }
 
-func (s session) GetLogoByID(id uint) (*models.Logo, error) {
-	var logo *models.Logo
-	err := s.connection.First(logo, id)
-	return resultOrError(logo, err)
+func (s session) GetLogoByID(id string) (*models.Logo, error) {
+	var logo models.Logo
+	err := s.connection.First(&logo, "id = ?", id)
+	return resultOrError(&logo, err)
 }
