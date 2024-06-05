@@ -14,8 +14,8 @@ import (
 )
 
 func init() {
-	apis.RegisterHandler(fiber.MethodPost, "/logo", auth.Public, handleLogoUpload)
-	apis.RegisterHandler(fiber.MethodGet, "/logo/:id:int", auth.Public, handleGetLogoByID)
+	apis.RegisterHandler(fiber.MethodPost, "/logos", auth.Public, handleLogoUpload)
+	apis.RegisterHandler(fiber.MethodGet, "/logos/:id:int", auth.Public, handleGetLogoByID)
 }
 
 func handleLogoUpload(c *fiber.Ctx) error {
