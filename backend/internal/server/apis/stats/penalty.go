@@ -54,6 +54,8 @@ func postPenaltyHandler(c *fiber.Ctx) error {
 		log.WithErr(err).Alert("Failed to parse penalty request payload")
 		return responder.BadRequest(c, "Failed to parse penalty request payload")
 	}
+
+	// Validate request
 	validate := validator.New()
 	err = validate.Struct(penaltyRequest)
 	if err != nil {
