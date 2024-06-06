@@ -1,17 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated style="background-color: #343333;">
+    <q-header elevated style="background-color: #343333">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="arrow_back"
-          aria-label="Back"
-          class ="mobile-only"
-          @click="goBack"
-          v-if="canGoBack"
-        />
         <q-btn
           flat
           dense
@@ -19,9 +9,30 @@
           icon="menu"
           aria-label="Menu"
           @click="toggleLeftDrawer"
-          v-if="!$q.screen.lt.md" 
+          v-if="!$q.screen.lt.md"
         />
-        <q-toolbar-title class="text-center">{{ pageTitle }}</q-toolbar-title>
+
+        <q-btn
+          flat
+          dense
+          round
+          icon="arrow_back"
+          aria-label="Back"
+          class="mobile-only"
+          @click="goBack"
+          v-if="canGoBack"
+        />
+
+        <q-toolbar-title class="text-center"> Power Play </q-toolbar-title>
+
+        <q-btn
+          flat
+          dense
+          round
+          icon="menu"
+          aria-label="Menu"
+          style="margin-left: auto"
+        />
       </q-toolbar>
     </q-header>
 
@@ -32,17 +43,11 @@
           :key="item.label"
           v-bind="item"
           class="q-mt-md q-pt-md q-pb-md"
-          style="display: flex; align-items: start; width: 90%;"
+          style="display: flex; align-items: start; width: 90%"
           color="black"
         />
       </div>
     </q-drawer>
-
-    <q-footer class="q-pa-md bg-white" elevated v-if="$q.screen.lt.md">
-        <div class="row justify-evenly">
-          <q-btn v-for="item in navItems" :key="item.label" v-bind="item" color="black" label=""/>
-        </div>
-    </q-footer>
 
     <q-page-container>
       <router-view />
@@ -51,11 +56,11 @@
 </template>
 
 <style scoped>
-  .column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 </style>
 
 <script setup lang="ts">
@@ -67,39 +72,7 @@ defineOptions({
 });
 
 const router = useRouter();
-const route = useRoute(); // used to display the title of the page
-const pageTitle = computed(() => route.meta.title || 'Power Play');
-
-const navItems = [
-  {
-    label: 'Home',
-    icon: 'home',
-    to: '/',
-    flat: true,
-    dense: true,
-  },
-  {
-    label: 'Schedule',
-    icon: 'event',
-    to: '/schedule',
-    flat: true,
-    dense: true,
-  },
-  {
-    label: 'Chat',
-    icon: 'chat_bubble_outline',
-    to: '/chat',
-    flat: true,
-    dense: true,
-  },
-  {
-    label: 'Profile',
-    icon: 'person',
-    to: '/profile',
-    flat: true,
-    dense: true,
-  },
-];
+const route = useRoute();
 
 const leftDrawerOpen = ref(false);
 
