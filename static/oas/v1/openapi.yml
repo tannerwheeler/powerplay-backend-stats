@@ -28,6 +28,8 @@ paths:
     $ref: "./stats/shotsongoal.yml#/paths/shotsOnGoal"
   /user:
     $ref: "./users/users.yml#/paths/user"
+  /venues:
+    $ref: "./stats/venues.yml#/paths/venues"
 
 components:
   securitySchemes:
