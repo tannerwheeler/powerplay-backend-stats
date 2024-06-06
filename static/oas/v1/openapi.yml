@@ -12,14 +12,18 @@ paths:
   #$ref: "./[Relative path starting from v1]#/paths/[yml path]"
   /auth:
     $ref: "./auth/auth.yml#/paths/auth"
-  /shotsongoal:
-    $ref: "./stats/shotsongoal.yml#/paths/shotsOnGoal"
-  /penaltyTypes:
-    $ref: "./stats/penalties.yml#/paths/penaltyTypes"
+  /goals:
+    $ref: "./stats/goal.yml#/paths/goals"
   /leagues:
     $ref: "./leagues/leagues.yaml#/paths/leagues"
+  /logos:
+    $ref: "./groups/logos.yml#/paths/~1logos"
+  /logos/{id}:
+    $ref: "./groups/logos.yml#/paths/~1logos~1%7Bid%7D"
   /penalties:
     $ref: "./stats/penalties.yml#/paths/penalties"
+  /penaltyTypes:
+    $ref: "./stats/penalties.yml#/paths/penaltyTypes"
   /user:
     $ref: "./users/users.yml#/paths/user"
   /rosters:
@@ -28,6 +32,12 @@ paths:
     $ref: "./stats/goal.yml#/paths/goals"
   /seasons:
     $ref: "./season/season.yml#/paths/seasons"
+  /shotsongoal:
+    $ref: "./stats/shotsongoal.yml#/paths/shotsOnGoal"
+  /user:
+    $ref: "./users/users.yml#/paths/user"
+  /venues:
+    $ref: "./stats/venues.yml#/paths/venues"
 
 components:
   securitySchemes:
