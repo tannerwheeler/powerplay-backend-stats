@@ -12,11 +12,11 @@ type PenaltyType struct {
 type Penalty struct {
 	DbModel
 	PlayerID      uint        `json:"player_id" validate:"required"`
-	TeamID        *uint        `json:"team_id" gorm:"NOT NULL"`
-	GameID        *uint        `json:"game_id" gorm:"NOT NULL"`
-	Period        *uint        `json:"period" gorm:"NOT NULL"`
-	Duration      *uint        `json:"duration" gorm:"NOT NULL"`
-	CreatedBy     *uint        `json:"created_by" gorm:"NOT NULL"`
-	PenaltyType   *PenaltyType `json:"penalty_type" gorm:"NOT NULL"`
-	PenaltyTypeID *uint        `json:"penalty_type_id"`
+	TeamID        uint        `json:"team_id" validate:"required"`
+	GameID        uint        `json:"game_id" validate:"required"`
+	Period        uint        `json:"period" validate:"required"`
+	Duration      uint        `json:"duration" validate:"required"`
+	CreatedBy     uint        `json:"created_by" validate:"required"`
+	PenaltyType   PenaltyType `json:"penalty_type" validate:"required"`
+	PenaltyTypeID uint        `json:"penalty_type_id" validate:"required"`
 }
