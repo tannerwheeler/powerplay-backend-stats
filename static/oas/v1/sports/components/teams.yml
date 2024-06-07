@@ -39,7 +39,7 @@ paths:
     get:
       tags:
         - Teams
-      summary: Find Team by ID
+      summary: Team by ID
       description: Retrieve a team by ID
       parameters:
         - name: id

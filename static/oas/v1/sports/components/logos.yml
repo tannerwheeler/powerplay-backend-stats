@@ -27,7 +27,7 @@ paths:
     get:
       tags:
         - Logos
-      summary: Find Logo By ID
+      summary: Logo by ID
       description: Get a logo by Logo ID
       parameters:
         - name: id
