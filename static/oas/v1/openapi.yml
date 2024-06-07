@@ -13,7 +13,7 @@ paths:
   /auth:
     $ref: "./auth/auth.yml#/paths/auth"
   /goals:
-    $ref: "./stats/goal.yml#/paths/goals"
+    $ref: "./stats/goals.yml#/paths/goals"
   /leagues:
     $ref: "./sports/components/leagues.yml#/paths/leagues"
   /logos:
@@ -27,7 +27,7 @@ paths:
   /rosters:
     $ref: "./sports/components/rosters.yml#/paths/rosters"
   /seasons:
-    $ref: "./sports/components/season.yml#/paths/seasons"
+    $ref: "./sports/components/seasons.yml#/paths/seasons"
   /shotsongoal:
     $ref: "./stats/shotsongoal.yml#/paths/shotsOnGoal"
   /teams:
