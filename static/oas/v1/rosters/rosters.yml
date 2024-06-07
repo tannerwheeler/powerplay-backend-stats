@@ -57,7 +57,7 @@ schemas:
             players: 
               type: array
               items: 
-                $ref: "../user/users.yml#/schemas/User"
+                $ref: "../users/users.yml#/schemas/User"
   PostRosterResponse:
     type: object
     properties:

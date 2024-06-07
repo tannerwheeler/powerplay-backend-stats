@@ -24,12 +24,8 @@ paths:
     $ref: "./stats/penalties.yml#/paths/penalties"
   /penaltyTypes:
     $ref: "./stats/penalties.yml#/paths/penaltyTypes"
-  /user:
-    $ref: "./users/users.yml#/paths/user"
   /rosters:
     $ref: "./rosters/rosters.yml#/paths/rosters"
-  /goals:
-    $ref: "./stats/goal.yml#/paths/goals"
   /seasons:
     $ref: "./season/season.yml#/paths/seasons"
   /shotsongoal:
