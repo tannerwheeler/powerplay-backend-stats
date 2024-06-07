@@ -7,6 +7,22 @@ info:
     name: MIT
     url: https://opensource.org/license/mit
 
+tags:
+  - name: Leagues
+    x-tag-expanded: false
+  - name: Logos
+    x-tag-expanded: false
+  - name: Rosters
+    x-tag-expanded: false
+  - name: Seasons
+    x-tag-expanded: false
+  - name: Stats
+    x-tag-expanded: false
+  - name: Teams
+    x-tag-expanded: false
+  - name: User
+    x-tag-expanded: false
+
 paths:
   # /[URL path]
   #$ref: "./[Relative path starting from v1]#/paths/[yml path]"
