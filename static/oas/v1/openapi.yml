@@ -8,6 +8,8 @@ info:
     url: https://opensource.org/license/mit
 
 tags:
+  - name: Authentication
+    x-tag-expanded: false
   - name: Games
     x-tag-expanded: false
   - name: Leagues
