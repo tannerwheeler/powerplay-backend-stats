@@ -12,11 +12,15 @@ import (
 )
 
 func init() {
-	apis.RegisterHandler(fiber.MethodPost, "/rosters", auth.Public, postRoster)
+	apis.RegisterHandler(fiber.MethodPost, "/rosters", auth.Authenticated, postRoster)
 	apis.RegisterHandler(fiber.MethodGet, "/rosters", auth.Public, getRosters)
 }
 
 func postRoster(c *fiber.Ctx) error {
+	// roles := apis.GetRole(fiber.MethodPost, "/rosters")
+	// user := c.Locals("user").(*jwt.Token)
+	// roles := user.
+
 	type RosterRequest struct {
 		CaptainEmail string   `json:"captain_email"`
 		PlayerEmails []string `json:"player_emails"`
