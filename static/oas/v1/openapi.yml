@@ -8,6 +8,8 @@ info:
     url: https://opensource.org/license/mit
 
 tags:
+  - name: Games
+    x-tag-expanded: false
   - name: Leagues
     x-tag-expanded: false
   - name: Logos
@@ -20,7 +22,7 @@ tags:
     x-tag-expanded: false
   - name: Teams
     x-tag-expanded: false
-  - name: User
+  - name: Users
     x-tag-expanded: false
 
 paths:
