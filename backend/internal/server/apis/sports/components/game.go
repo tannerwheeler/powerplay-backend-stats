@@ -1,4 +1,4 @@
-package game
+package components
 
 import (
 	"github.com/gofiber/fiber/v2"
