@@ -2,8 +2,8 @@ paths:
   /logos:
     post:
       tags:
-        - Groups
-      summary: Upload a Logo
+        - Logos
+      summary: Create Team Logo
       description: Uploads a team's logo
       requestBody:
         content:
@@ -26,8 +26,8 @@ paths:
   /logos/{id}:
     get:
       tags:
-        - Groups
-      summary: Get Logo By ID
+        - Logos
+      summary: Logo by ID
       description: Get a logo by Logo ID
       parameters:
         - name: id
