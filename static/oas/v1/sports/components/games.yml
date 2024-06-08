@@ -3,7 +3,7 @@ paths:
     get:
       tags:
         - Games
-      summary: Get All Games
+      summary: All Games
       description: |
         Get all games  
       responses:
@@ -38,7 +38,7 @@ paths:
     get:
       tags:
         - Games
-      summary: Get Game by ID
+      summary: Game by ID
       description: Get game details by ID
       parameters:
         - name: gameId

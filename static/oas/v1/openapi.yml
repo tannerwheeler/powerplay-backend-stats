@@ -13,9 +13,9 @@ paths:
   /auth:
     $ref: "./auth/auth.yml#/paths/auth"
   /games:
-    $ref: "./game/games.yml#/paths/~1games"
+    $ref: "./sports/components/games.yml#/paths/~1games"
   /games/{gameId}:
-    $ref: "./game/games.yml#/paths/~1games~1{gameId}"
+    $ref: "./sports/components/games.yml#/paths/~1games~1{gameId}"
   /goals:
     $ref: "./sports/stats/goals.yml#/paths/goals"
   /leagues:
