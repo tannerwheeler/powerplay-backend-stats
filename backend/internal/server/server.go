@@ -14,7 +14,7 @@ import (
 	_ "github.com/jak103/powerplay/internal/server/apis/chat"
 	_ "github.com/jak103/powerplay/internal/server/apis/notifications"
 	_ "github.com/jak103/powerplay/internal/server/apis/sports/components"
-	_ "github.com/jak103/powerplay/internal/server/apis/stats"
+	_ "github.com/jak103/powerplay/internal/server/apis/sports/stats"
 	_ "github.com/jak103/powerplay/internal/server/apis/user"
 )
 
