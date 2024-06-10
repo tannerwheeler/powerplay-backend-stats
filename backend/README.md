@@ -62,9 +62,13 @@ The following link is to an example .go file containing methods to be used as an
 - [Example .yml file](/static/oas/v1/stats/penalties.yml)
 
 ## Adding and Updating Unit Testing for Database Model
-Taken from an in class walkthrough of adding a unit test for a database model. These tests will be using a docker spin up of the actual database for testing the database interfacing functions.
+Adding a unit test for a database model. These tests will be using a docker spin up of the actual database for testing the database interfacing functions.
 
 Uses the dockertest go package
 
+To be expounded upon once a unit testing pattern is achieved.
+
 ## Adding and Updating Unit Testing for API Endpoint
-Taken from an in class walkthrough of adding a unit test for an API endpoint. These tests will be using a mock up of the database models involved.
+Adding a unit test for an API endpoint. These tests will be using a mock up of the database models involved.
+
+To be expounded upon once a unit testing pattern is achieved.
