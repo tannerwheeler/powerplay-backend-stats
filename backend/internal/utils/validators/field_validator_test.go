@@ -2,6 +2,7 @@ package validators
 
 import (
 	"github.com/jak103/powerplay/internal/models"
+	"reflect"
 	"testing"
 )
 
@@ -27,9 +28,11 @@ func TestIsValidSortField(t *testing.T) {
 		{"invalid_field", false},
 	}
 
+	modelType := reflect.TypeOf(TestLeague{})
+
 	for _, test := range tests {
 		t.Run(test.field, func(t *testing.T) {
-			valid := IsValidSortField(test.field, TestLeague{})
+			valid := IsValidSortField(test.field, modelType)
 			if valid != test.expectValid {
 				t.Errorf("Expected IsValidSortField(%q) to be %v, got %v", test.field, test.expectValid, valid)
 			}
