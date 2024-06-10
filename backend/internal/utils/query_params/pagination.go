@@ -8,7 +8,7 @@ import (
 func GetPaginationParams(c *fiber.Ctx) (int, int, bool, error) {
 	offsetParam := c.Query("offset", "0")
 	limitParam := c.Query("limit", "10")
-	fetchAll := c.Query("fetch_all", "false") // Default to false
+	fetchAll := c.Query("fetch_all", "false")
 
 	offset, err := strconv.Atoi(offsetParam)
 	if err != nil {

@@ -18,4 +18,6 @@ components:
               request_id:
                 $ref: "./schemas.yml#/components/schemas/RequestId"
               message:
-                ty
+                type: string
+              description: A human readable error message
+              example: The request is incorrectly formatted
