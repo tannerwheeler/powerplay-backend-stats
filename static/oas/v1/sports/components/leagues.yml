@@ -6,6 +6,32 @@ paths:
       summary: All Leagues
       description: |
         Get all leagues
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set (defaults to 0)
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return (defaults to 10)
+        - in: query
+          name: fetch_all
+          schema:
+            type: boolean
+          description: Fetch all leagues (ignores offset / limit)
+        - in: query
+          name: sort_field
+          schema:
+            type: string
+          description: Field to sort on (defaults to ID)
+        - in: query
+          name: sort_order
+          schema:
+            type: string
+          description: Order in which to sort (defaults to ASC)
       responses:
         200:
           description: The response body should contain the list of leagues
@@ -14,7 +40,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/GetLeaguesResponse'
         400:
-          $ref: "../common/errors.yml#/responses/BadRequest"
+          $ref: "../../common/errors.yml#/responses/BadRequest"
     post:
       tags:
         - Leagues
@@ -35,7 +61,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PostLeagueResponse'
         400:
-          $ref: "../common/errors.yml#/responses/BadRequest"
+          $ref: "../../common/errors.yml#/responses/BadRequest"
 
 components:
   schemas:
@@ -43,11 +69,11 @@ components:
       type: object
       properties:
         status_code:
-          $ref: "../common/schemas.yml#/schemas/StatusCode200"
+          $ref: "../../common/schemas.yml#/schemas/StatusCode200"
         status_string:
-          $ref: "../common/schemas.yml#/schemas/StatusString200"
+          $ref: "../../common/schemas.yml#/schemas/StatusString200"
         request_id:
-          $ref: "../common/schemas.yml#/schemas/RequestId"
+          $ref: "../../common/schemas.yml#/schemas/RequestId"
         response_data:
           type: object
           properties:
@@ -86,8 +112,8 @@ components:
       type: object
       properties:
         status_code:
-          $ref: "../common/schemas.yml#/schemas/StatusCode200"
+          $ref: "../../common/schemas.yml#/schemas/StatusCode200"
         status_string:
-          $ref: "../common/schemas.yml#/schemas/StatusString200"
+          $ref: "../../common/schemas.yml#/schemas/StatusString200"
         request_id:
-          $ref: "../common/schemas.yml#/schemas/RequestId"
+          $ref: "../../common/schemas.yml#/schemas/RequestId"
