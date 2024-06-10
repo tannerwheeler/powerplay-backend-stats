@@ -17,6 +17,9 @@ func init() {
 }
 
 func postRoster(c *fiber.Ctx) error {
+	// Get user that is hitting api
+	// Validate that they are authenticated to hit this endpoint
+
 	// roles := apis.GetRole(fiber.MethodPost, "/rosters")
 	// user := c.Locals("user").(*jwt.Token)
 	// roles := user.
