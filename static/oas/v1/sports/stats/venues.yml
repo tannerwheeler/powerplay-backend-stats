@@ -1,47 +1,47 @@
 paths:
-  seasons:
+  venues:
     get:
       tags:
-        - Seasons
-      summary: Get All Seasons
+        - Stats
+      summary: All Venues
       description: |
-        Get all seasons
+        Get all Venues
       responses:
         200:
-          description: The response body should contain the list of seasons
+          description: The response body should contain the list of venues
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetSeasonsResponse"
+                $ref: "#/components/schemas/GetVenuesResponse"
         400:
           $ref: "../common/errors.yml#/responses/BadRequest"
     post:
       tags:
-        - Seasons
-      summary: Season post request
+        - Stats
+      summary: Create Venue
       description: |
         **REQUIRED PERMISSIONS:** none:none  
         **RATE LIMIT:** TBD
       requestBody:
-        description: Does not create schedules, leagues, or registrations.
+        description: The request body should contain a venue name (string), an address (string), and a list of locker rooms (pq.StringArray)
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SeasonRequest"
+              $ref: "#/components/schemas/AddVenueRequest"
       responses:
         200:
-          description: Successfully posted season
+          description: Successfully posted venue
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SeasonResponse"
+                $ref: "#/components/schemas/AddVenueResponse"
         400:
           $ref: "../common/errors.yml#/responses/BadRequest"
 
 components:
   schemas:
-    GetSeasonsResponse:
+    GetVenuesResponse:
       type: object
       properties:
         status_code:
@@ -53,48 +53,42 @@ components:
         response_data:
           type: object
           properties:
-            seasons:
+            venues:
               type: array
-              description: All seasons
+              description: All venues
               example:
                 - id: 1
                   created_at: "2009-11-10T23:00:00Z"
                   updated_at: "2009-11-10T23:00:00Z"
-                  name: "Season 1"
-                  start: "2009-11-10T23:00:00Z"
-                  end: "2009-11-10T23:00:00Z"
-                  registrations: []
-                  schedule: []
-                  leagues: []
+                  name: "Eccles Ice Center"
+                  address: "2825N 200E Logan UT"
+                  locker_rooms: ["left", "right"]
                 - id: 2
                   created_at: "2009-11-10T23:00:00Z"
                   updated_at: "2009-11-10T23:00:00Z"
-                  name: "Season 2"
-                  start: "2009-11-10T23:00:00Z"
-                  end: "2009-11-10T23:00:00Z"
-                  registrations: []
-                  schedule: []
-                  leagues: []
+                  name: "Generic Ice Center"
+                  address: "100N 112E Ogden UT"
+                  locker_rooms: ["lr1", "lr2", "referee locker room"]
+                  
 
-    SeasonRequest:
+    AddVenueRequest:
       type: object
       properties:
         name:
           type: string
-          description: The name of the season
-          example: "Season 1"
-        start:
+          description: The venue's name
+          example: "Eccles Ice Center"
+        address:
           type: string
-          format: date-time
-          description: Start time for the season
-          example: "2023-05-01T00:00:00Z"
-        end:
-          type: string
-          format: date-time
-          description: End time for the season
-          example: "2023-09-01T00:00:00Z"
+          description: The address of the venue
+          example: "2825E 200E Logan UT"
+        locker_rooms:
+          type: text[]
+          description: The list of locker rooms in the venue
+          example: ["left", "right"]
+        
 
-    SeasonResponse:
+    AddVenueResponse:
       type: object
       properties:
         status_code:
