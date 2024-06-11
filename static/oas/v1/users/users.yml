@@ -40,9 +40,11 @@ schemas:
       phone:
         type: string
         example: '123-456-7890'
-      # role:   
-      #   type: string
-      #   example: Player
+      role: 
+        type: array
+        items:   
+          type: string
+          example: player
       skill_level: # will this match skill level? 
         type: integer
         example: 5
