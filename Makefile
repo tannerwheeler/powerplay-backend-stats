@@ -3,6 +3,9 @@
 down: 
 	docker compose down
 
+stop: 
+	docker compose stop
+
 migrate:
 	@echo "🚀 Running app in detached mode and applying migrations"
 	@docker compose -f docker-compose.yml up -d
