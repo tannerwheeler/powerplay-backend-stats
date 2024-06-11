@@ -33,7 +33,7 @@ paths:
         400:
           $ref: "../../common/errors.yml#/components/responses/BadRequest"
         500:
-          $ref: "../../common/errors.yml#/components/responses/InternalServerError" # todo: there is no such thing issue-#162
+          $ref: "../../common/errors.yml#/components/responses/InternalServerError"
   /games/{gameId}:
     get:
       tags:
@@ -56,7 +56,7 @@ paths:
         400:
           $ref: "../../common/errors.yml#/components/responses/BadRequest"
         404:
-          $ref: "../../common/errors.yml#/components/responses/NotFound" # todo: there is no such thing issue-#163
+          $ref: "../../common/errors.yml#/components/responses/NotFound"
     put:
       tags:
         - Games
@@ -80,9 +80,9 @@ paths:
         400:
           $ref: "../../common/errors.yml#/components/responses/BadRequest"
         404:
-          $ref: "../../common/errors.yml#/components/responses/NotFound" # todo: issue-#163
+          $ref: "../../common/errors.yml#/components/responses/NotFound"
         500:
-          $ref: "../../common/errors.yml#/components/responses/InternalServerError" #todo: issue-#162
+          $ref: "../../common/errors.yml#/components/responses/InternalServerError"
 
 components:
   schemas:
