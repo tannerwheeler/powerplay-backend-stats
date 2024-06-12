@@ -7,20 +7,18 @@ import (
 	"github.com/go-faker/faker/v4"
 	"github.com/jak103/powerplay/internal/models"
 	"github.com/jak103/powerplay/internal/server/services/auth"
-	"github.com/jak103/powerplay/internal/utils/log"
 	"gorm.io/gorm"
 )
 
 type UserSeeder struct{}
 
 func (s UserSeeder) Seed(db *gorm.DB, args ...interface{}) (interface{}, error) {
-	roles := [][]auth.Role{auth.Authenticated, auth.Public, auth.Staff, auth.ManagerOnly}
+	roles := []auth.Roles{auth.Authenticated, auth.Public, auth.Staff, auth.ManagerOnly}
 
 	var createdUsers []models.User
 	for i := 0; i < 4; i++ {
 		randIndex := rand.Intn(len(roles))
 		role := roles[randIndex]
-		log.Debug("Role : %v, Type : %T", role, role)
 
 		user := models.User{
 			FirstName:    faker.FirstName(),
@@ -34,9 +32,7 @@ func (s UserSeeder) Seed(db *gorm.DB, args ...interface{}) (interface{}, error) 
 			DateOfBirth:  time.Time{},
 		}
 
-		log.Debug("User : %v, Type : %T", user, user)
-
-		if err := db.FirstOrCreate(&user, models.User{}).Error; err != nil {
+		if err := db.Create(&user).Error; err != nil {
 			return nil, err
 		}
 

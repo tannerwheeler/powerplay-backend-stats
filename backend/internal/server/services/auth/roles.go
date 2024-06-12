@@ -2,6 +2,7 @@ package auth
 
 import (
 	"database/sql/driver"
+	"encoding/json"
 	"errors"
 )
 
@@ -33,13 +34,6 @@ func (r *Role) Scan(value interface{}) error {
 	return nil
 }
 
-var (
-	Public        []Role = []Role{None}
-	Authenticated []Role = []Role{Manager, Referee, ScoreKeeper, Captain, Player}
-	Staff         []Role = []Role{Manager, Referee, ScoreKeeper}
-	ManagerOnly   []Role = []Role{Manager}
-)
-
 func HasCorrectRole(usersRoles []Role, roles []Role) bool {
 	for _, usersRole := range usersRoles {
 		for _, neededRole := range roles {
@@ -50,4 +44,33 @@ func HasCorrectRole(usersRoles []Role, roles []Role) bool {
 	}
 
 	return false
+}
+
+type Roles []Role
+
+var (
+	Public        Roles = []Role{None}
+	Authenticated Roles = []Role{Manager, Referee, ScoreKeeper, Captain, Player}
+	Staff         Roles = []Role{Manager, Referee, ScoreKeeper}
+	ManagerOnly   Roles = []Role{Manager}
+)
+
+// Scan implements the Scanner interface for RoleSlice
+func (rs *Roles) Scan(value interface{}) error {
+	if value == nil {
+		*rs = nil
+		return nil
+	}
+
+	bytes, ok := value.([]byte)
+	if !ok {
+		return errors.New("invalid type for RoleSlice")
+	}
+
+	return json.Unmarshal(bytes, rs)
+}
+
+// Value implements the driver Valuer interface for RoleSlice
+func (rs Roles) Value() (driver.Value, error) {
+	return json.Marshal(rs)
 }
