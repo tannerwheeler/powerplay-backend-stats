@@ -27,15 +27,11 @@ run_local_image:
 
 run_backend:
 	@echo "Running backend services in detached mode and seeding test data"
-	@docker compose up database backend -d 
-	@docker compose exec backend bash -c "cd /powerplay/backend && go run . -seed-test" || (echo "Seeding failed, halting" && exit 1)
-	@echo "Running twice so tables will be created"
-	@docker compose exec backend bash -c "cd /powerplay/backend && go run . -seed-test" || (echo "Seeding failed, halting" && exit 1)
-	@docker compose logs -f
+	@docker compose up database backend
 
 seed_test_data:
 	@echo "🌱 Running backend in detached mode and seeding test data"
-	@docker compose -f docker-compose.yml up -d
+	@docker compose -f docker-compose.yml up database backend -d
 	@docker compose -f docker-compose.yml exec backend bash -c "cd /powerplay/backend && go run . -seed-test" || (echo "Seeding failed, halting" && exit 1)
 
 test:

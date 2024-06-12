@@ -13,7 +13,7 @@ type User struct {
 	Email        string     `json:"email"`
 	Password     string     `json:"-"` // Password should never leave the backend
 	Phone        string     `json:"phone"`
-	Role         auth.Roles `json:"roles" gorm:"type:jsonb"`
+	Role         auth.Roles `json:"roles" gorm:"type:text[]"`
 	SkillLevel   int        `json:"skill_level"`
 	CurrentTeams []Team     `json:"current_teams" gorm:"many2many:users_teams"`
 	DateOfBirth  time.Time  `json:"dob"`

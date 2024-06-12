@@ -2,8 +2,8 @@ package auth
 
 import (
 	"database/sql/driver"
-	"encoding/json"
 	"errors"
+	"strings"
 )
 
 type Role string
@@ -34,7 +34,7 @@ func (r *Role) Scan(value interface{}) error {
 	return nil
 }
 
-func HasCorrectRole(usersRoles []Role, roles []Role) bool {
+func HasCorrectRole(usersRoles Roles, roles Roles) bool {
 	for _, usersRole := range usersRoles {
 		for _, neededRole := range roles {
 			if neededRole == None || usersRole == neededRole {
@@ -55,22 +55,55 @@ var (
 	ManagerOnly   Roles = []Role{Manager}
 )
 
-// Scan implements the Scanner interface for RoleSlice
+// func (rs *Roles) Scan(value interface{}) error {
+// 	if value == nil {
+// 		*rs = nil
+// 		return nil
+// 	}
+
+// 	bytes, ok := value.([]byte)
+// 	if !ok {
+// 		return errors.New("invalid type for RoleSlice")
+// 	}
+
+// 	return json.Unmarshal(bytes, rs)
+// }
+
+// func (rs Roles) Value() (driver.Value, error) {
+// 	return json.Marshal(rs)
+// }
+
 func (rs *Roles) Scan(value interface{}) error {
 	if value == nil {
 		*rs = nil
 		return nil
 	}
 
-	bytes, ok := value.([]byte)
-	if !ok {
-		return errors.New("invalid type for RoleSlice")
+	var rolesStr []string
+	switch v := value.(type) {
+	case []byte:
+		rolesStr = strings.Split(string(v), ",")
+	case string:
+		rolesStr = strings.Split(v, ",")
+	default:
+		return errors.New("unsupported type for Roles")
 	}
 
-	return json.Unmarshal(bytes, rs)
+	roles := make(Roles, len(rolesStr))
+	for i, roleStr := range rolesStr {
+		roles[i] = Role(roleStr)
+	}
+
+	*rs = roles
+	return nil
 }
 
-// Value implements the driver Valuer interface for RoleSlice
 func (rs Roles) Value() (driver.Value, error) {
-	return json.Marshal(rs)
+	roles := make([]string, len(rs))
+
+	for i, role := range rs {
+		roles[i] = string(role)
+	}
+
+	return roles, nil
 }
