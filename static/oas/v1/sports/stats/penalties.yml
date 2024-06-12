@@ -2,7 +2,7 @@ paths:
   penaltyTypes:
     get:
       tags:
-        - Stats
+        - Penalties
       summary: All Penalty Types
       description: Get all penalty types
       responses:
@@ -17,10 +17,9 @@ paths:
   penalties:
     get:
       tags:
-        - Stats
+        - Penalties
       summary: All Penalties
-      description: |
-        Get all penalties
+      description: Get all penalties
       responses:
         200:
           description: The response body should contain the list of penalties
@@ -32,8 +31,8 @@ paths:
           $ref: "../../common/errors.yml#/components/responses/BadRequest"
     post:
       tags:
-        - Stats
-      summary: Add Penalty
+        - Penalties
+      summary: Create Penalty
       description: Creates a new penalty
       requestBody:
         description: A JSON object with a valid penalty

@@ -7,7 +7,6 @@ import (
 	"github.com/jak103/powerplay/internal/server/apis"
 	"github.com/jak103/powerplay/internal/server/services/auth"
 	"github.com/jak103/powerplay/internal/utils/locals"
-	"github.com/jak103/powerplay/internal/utils/log"
 	"github.com/jak103/powerplay/internal/utils/responder"
 )
 
@@ -18,12 +17,12 @@ func init() {
 }
 
 func getPenaltyTypes(c *fiber.Ctx) error {
-
+	log := locals.Logger(c)
 	db := db.GetSession(c)
 	penaltyTypes, err := db.GetPenaltyTypes()
 	if err != nil {
 		log.WithErr(err).Alert("Failed to get all penalty types from the database")
-		return err
+		return responder.InternalServerError(c)
 	}
 
 	return responder.OkWithData(c, penaltyTypes)
@@ -35,7 +34,7 @@ func getPenaltiesHandler(c *fiber.Ctx) error {
 	penalties, err := db.GetPenalties()
 	if err != nil {
 		log.WithErr(err).Alert("Failed to get all penalties from the database")
-		return err
+		return responder.InternalServerError(c)
 	}
 
 	// Send JSON response

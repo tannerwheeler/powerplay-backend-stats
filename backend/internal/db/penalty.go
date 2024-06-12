@@ -18,3 +18,8 @@ func (s session) GetPenaltyTypes() ([]models.PenaltyType, error) {
 	err := s.connection.Find(&penaltyTypes)
 	return resultsOrError(penaltyTypes, err)
 }
+
+func (s session) CreatePenaltyType(request *models.PenaltyType) error {
+	result := s.connection.Create(request)
+	return result.Error
+}
