@@ -12,7 +12,7 @@ func (s *session) GetLeagues(sortField, sortOrder string) ([]models.League, erro
 	}
 
 	leagues := make([]models.League, 0)
-	err := s.connection.Order(sortField + " " + sortOrder).Find(&leagues)
+	err := s.connection.Order(sortField + " " + sortOrder).Preload("Teams").Find(&leagues)
 	return resultsOrError(leagues, err)
 }
 
@@ -24,7 +24,7 @@ func (s session) GetLeaguesPaginated(offset, limit int, sortField, sortOrder str
 		sortOrder = "asc"
 	}
 	leagues := make([]models.League, 0)
-	err := s.connection.Offset(offset).Limit(limit).Order(sortField + " " + sortOrder).Find(&leagues)
+	err := s.connection.Offset(offset).Limit(limit).Order(sortField + " " + sortOrder).Preload("Teams").Find(&leagues)
 	return resultsOrError(leagues, err)
 }
 
