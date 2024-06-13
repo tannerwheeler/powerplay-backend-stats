@@ -18,18 +18,18 @@ func (s session) CreateRoster(roster *models.Roster) error {
 	return result.Error
 }
 
-func (s session) GetUserByEmail(email string) (*models.User, error) {
+func (s session) GetUserByID(id uint) (*models.User, error) {
 	user := &models.User{}
 
-	err := s.Find(&user, "email = ?", email)
+	err := s.Find(&user, "ID = ?", id)
 
 	return resultOrError(user, err)
 }
 
-func (s session) GetUserByEmails(emails []string) ([]*models.User, error) {
+func (s session) GetUserByIDs(ids []uint) ([]*models.User, error) {
 	users := make([]*models.User, 0)
 
-	err := s.Where("email IN (?)", emails).Find(&users)
+	err := s.Where("ID IN (?)", ids).Find(&users)
 
 	return resultsOrError(users, err)
 }
