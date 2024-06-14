@@ -40,7 +40,7 @@ schemas:
       phone:
         type: string
         example: '123-456-7890'
-      role: 
+      roles: 
         type: array
         items:   
           type: string

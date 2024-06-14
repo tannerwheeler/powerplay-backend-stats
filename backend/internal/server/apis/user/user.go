@@ -105,13 +105,30 @@ func createUserAccount(c *fiber.Ctx) error {
 		return responder.BadRequest(c, err.Error())
 	}
 
+	// type TempUser struct {
+	// 	FirstName    string
+	// 	LastName     string
+	// 	Email        string
+	// 	Password     string
+	// 	Phone        string
+	// 	Role         []string
+	// 	SkillLevel   int
+	// 	CurrentTeams []models.Team
+	// 	DateOfBirth  time.Time
+	// }
+
 	// parse actual user object
+	// u := &TempUser{}
 	u := &models.User{}
 	err = c.BodyParser(&u)
 	if err != nil {
 		log.WithErr(err).Error(err.Error())
 		return responder.BadRequest(c, err.Error())
 	}
+
+	log.Debug("User Roles : %v", u.Role)
+
+	// roles := auth.Roles(u.Role)/s
 
 	// write to database
 	db := db.GetSession(c)
@@ -123,11 +140,11 @@ func createUserAccount(c *fiber.Ctx) error {
 	}
 
 	// response
-	createdUserResponse := createResponse{
-		Email:  user.Email,
-		UserId: int(u.ID),
-	}
+	// createdUserResponse := createResponse{
+	// 	Email:  user.Email,
+	// 	UserId: int(u.ID),
+	// }
 
-	return responder.OkWithData(c, createdUserResponse)
+	return responder.OkWithData(c, u)
 
 }
