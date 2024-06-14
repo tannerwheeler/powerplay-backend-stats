@@ -25,7 +25,7 @@ func postGoalsHandler(c *fiber.Ctx) error {
 	// If valid structure in post request, continue on
 	if err != nil {
 		log.WithErr(err).Error("Failed to parse Goal POST request.")
-		return err
+		return responder.BadRequest(c)
 	}
 	// Validate the request
 	validate := validator.New()
@@ -36,7 +36,7 @@ func postGoalsHandler(c *fiber.Ctx) error {
 
 
 	// Connect to database and insert goal
-	db := db.GetSession(c)
+	db := database.newSession(c)
 	record, err := db.SaveGoal(goalPostRequest)
 
 	if err != nil {

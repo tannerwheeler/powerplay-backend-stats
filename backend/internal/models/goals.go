@@ -1,7 +1,5 @@
 package models
 
-
-
 type Goal struct {
 	DbModel
 	UserId   			uint          	`json:"user_id" validate:"required"`
