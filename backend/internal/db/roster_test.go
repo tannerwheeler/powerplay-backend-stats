@@ -5,15 +5,16 @@ import (
 )
 
 func (s *dbTestingSuite) TestCreateRoster() {
+
 	roster := models.Roster{}
 
-	g, err := s.session.CreateRoster(&roster)
+	r, err := s.session.CreateRoster(&roster)
 	s.Nil(err)
 
-	s.Equal(uint(1), g.ID)
+	s.Equal(uint(1), r.ID)
 
-	goals, err := s.session.GetRosters()
+	rosters, err := s.session.GetRosters()
 	s.Nil(err)
 
-	s.Len(goals, 1)
+	s.Len(rosters, 1)
 }
