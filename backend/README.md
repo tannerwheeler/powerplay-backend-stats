@@ -61,6 +61,56 @@ The following link is to an example .go file containing methods to be used as an
 3. Use the following linked .yml file to keep the documentation consistent throughout the backend.
 - [Example .yml file](/static/oas/v1/sports/stats/penalties.yml)
 
+### Adding Auth to API Endpoints
+There are several different roles that a user can be associated to:
+
+Roles:
+- None 
+- Player
+- Captain
+- Referee
+- ScoreKeeper
+- Manager
+
+There are roles that contain a set or group of roles:
+| Role Group | Role |
+| --- | --- | 
+| Public | [None] |
+| Authenticated | [Manager, Referee, ScoreKeeper, Captain, Player] | 
+| Staff | [Manager, Referee, ScoreKeeper] | 
+| ManagerOnly | [Manager] |
+
+Each API endpoint will have a set of roles that will be allowed to hit that endpoint. Here are the endpoints with the allowed roles:
+
+| Endpoint | HTTP Method | Roles |
+| --- | --- | --- |
+| /auth | POST | Public |
+| /games | GET | Public |
+| /games | POST | ManagerOnly | 
+| /goals | GET | Public | 
+| /goals | POST | Staff | 
+| /leagues | GET | Authenticated | 
+| /leagues | POST | ManagerOnly | 
+| /logo | GET | Public | 
+| /logo | POST | ManagerOnly | 
+| /penalties | GET | Public | 
+| /penalties | POST | Staff | 
+| /penaltyTypes | GET | Public | 
+| /rosters | GET | Authenticated | 
+| /rosters | POST | ManagerOnly | 
+| /seasons | GET | Authenticated | 
+| /seasons | POST | ManagerOnly | 
+| /shotsongoal | POST | Staff | 
+| /teams | GET | Authenticated | 
+| /teams | POST | ManagerOnly | 
+| /user | GET  | Authenticated | 
+| /user | POST | ManagerOnly |
+| /venues | GET | Public |
+| /venues | POST | ManagerOnly |
+
+
+
+
 ## Adding and Updating Unit Testing for Database Model
 Adding a unit test for a database model. These tests will be using a docker spin up of the actual database for testing the database interfacing functions.
 
