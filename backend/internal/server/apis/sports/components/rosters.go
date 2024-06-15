@@ -47,7 +47,7 @@ func postRoster(c *fiber.Ctx) error {
 	}
 
 	log.Debug("Players : %v", body.PlayerIDs)
-	players, err := db.GetUserByIDs(body.PlayerIDs)
+	players, err := db.GetUsersByIDs(body.PlayerIDs)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to get players")
 		return responder.InternalServerError(c)
