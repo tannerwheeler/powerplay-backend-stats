@@ -26,7 +26,7 @@ func (s session) GetUserByID(id uint) (*models.User, error) {
 	return resultOrError(user, err)
 }
 
-func (s session) GetUserByIDs(ids []uint) ([]*models.User, error) {
+func (s session) GetUsersByIDs(ids []uint) ([]*models.User, error) {
 	users := make([]*models.User, 0)
 
 	err := s.Where("ID IN (?)", ids).Find(&users)
