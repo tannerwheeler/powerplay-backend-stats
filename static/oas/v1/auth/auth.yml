@@ -31,11 +31,11 @@ schemas:
       email:
         type: string
         description: The user's email
-        example: admin@test.com
+        example: john@email.com
       password:
         type: string
         description: The user's password
-        example: password
+        example: 123!@dsQ
 
   AuthenticationResponse:
     type: object

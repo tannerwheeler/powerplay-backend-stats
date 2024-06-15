@@ -41,6 +41,8 @@ func postAuthHandler(c *fiber.Ctx) error {
 		return responder.BadRequest(c, "Failed to parse authentication credentials")
 	}
 
+	log.Debug("Body : %v", creds)
+
 	// TODO look up user in database
 	db := db.GetSession(c)
 	user, err := db.GetUserByEmail(creds.Email)
@@ -54,7 +56,7 @@ func postAuthHandler(c *fiber.Ctx) error {
 		return responder.Unauthorized(c, "Incorrect email or password")
 	}
 
-	log.Debug("User.password %q", user.Password)
+	log.Debug("User.password %v", user.Password)
 
 	if !validatePassword(creds.Password, user.Password, config.Vars.PasswordKey) {
 		log.Debug("Password did not match")

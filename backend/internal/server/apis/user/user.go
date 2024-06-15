@@ -87,6 +87,8 @@ func createUserAccount(c *fiber.Ctx) error {
 		return responder.BadRequest(c, "Failed to parse user creation request")
 	}
 
+	log.Debug("Creds Password : %v", creds.Password)
+
 	// marshal the request data into a User struct
 	user := models.User{
 		FirstName:   creds.FirstName,
@@ -98,6 +100,8 @@ func createUserAccount(c *fiber.Ctx) error {
 		DateOfBirth: creds.DateOfBirth,
 	}
 
+	log.Debug("User Password : %v", user.Password)
+
 	// validate the request
 	err = validateUser(&user)
 	if err != nil {
@@ -105,20 +109,7 @@ func createUserAccount(c *fiber.Ctx) error {
 		return responder.BadRequest(c, err.Error())
 	}
 
-	// type TempUser struct {
-	// 	FirstName    string
-	// 	LastName     string
-	// 	Email        string
-	// 	Password     string
-	// 	Phone        string
-	// 	Role         []string
-	// 	SkillLevel   int
-	// 	CurrentTeams []models.Team
-	// 	DateOfBirth  time.Time
-	// }
-
 	// parse actual user object
-	// u := &TempUser{}
 	u := &models.User{}
 	err = c.BodyParser(&u)
 	if err != nil {
@@ -126,9 +117,7 @@ func createUserAccount(c *fiber.Ctx) error {
 		return responder.BadRequest(c, err.Error())
 	}
 
-	log.Debug("User Roles : %v", u.Role)
-
-	// roles := auth.Roles(u.Role)/s
+	log.Debug("Password : %v", u.Password)
 
 	// write to database
 	db := db.GetSession(c)
