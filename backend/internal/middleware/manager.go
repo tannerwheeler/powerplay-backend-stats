@@ -67,7 +67,7 @@ func Setup(app *fiber.App) {
 		}))
 	}
 
-	// Setup auth
+	// Setup auth - is this correct?
 	// app.Use(auth.NewKeyRecord())
 	// app.Use(auth.NewAuthorizer())
 

@@ -14,7 +14,7 @@ import (
 func init() {
 	apis.RegisterHandler(fiber.MethodGet, "/penaltyTypes", auth.Public, getPenaltyTypes)
 	apis.RegisterHandler(fiber.MethodGet, "/penalties", auth.Public, getPenaltiesHandler)
-	apis.RegisterHandler(fiber.MethodPost, "/penalties", auth.Public, postPenaltyHandler)
+	apis.RegisterHandler(fiber.MethodPost, "/penalties", auth.Authenticated, postPenaltyHandler)
 }
 
 func getPenaltyTypes(c *fiber.Ctx) error {

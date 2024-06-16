@@ -69,3 +69,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: jwt
+
+# Add global security auth
+# security: 
+#   - BearerAuth: []

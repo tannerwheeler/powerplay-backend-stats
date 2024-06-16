@@ -41,11 +41,11 @@ schemas:
     type: object
     properties:
       status_code:
-        $ref: "../common/components/schemas.yml#/schemas/StatusCode200"
+        $ref: "../common/schemas.yml#/components/schemas/StatusCode200"
       status_string:
-        $ref: "../common/components/schemas.yml#/schemas/StatusString200"
+        $ref: "../common/schemas.yml#/components/schemas/StatusString200"
       request_id:
-        $ref: "../common/components/schemas.yml#/schemas/RequestId"
+        $ref: "../common/schemas.yml#/components/schemas/RequestId"
       response_data:
         type: object
         properties:
