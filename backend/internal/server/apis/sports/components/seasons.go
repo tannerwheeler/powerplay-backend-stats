@@ -34,7 +34,7 @@ func postSeasonsHandler(c *fiber.Ctx) error {
 
 	if err != nil {
 		log.WithErr(err).Error("Failed to parse Season POST request.")
-		return err
+		return responder.BadRequest(c)
 	}
 
 	db := db.GetSession(c)
