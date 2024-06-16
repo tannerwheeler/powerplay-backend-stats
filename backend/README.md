@@ -6,6 +6,7 @@
 
 ## Table of Contents
 - [Adding and Updating API Endpoints](#adding-and-updating-api-endpoints)
+- [Adding and Updating Authentication](#adding-and-updating-authentication)
 - [Adding and Updating Unit Testing for Database Model](#adding-and-updating-unit-testing-for-database-model)
 - [Adding and Updating Unit Testing for API Endpoint](#adding-and-updating-unit-testing-for-api-endpoint)
 ## Adding and Updating API Endpoints
@@ -60,6 +61,15 @@ The following link is to an example .go file containing methods to be used as an
 
 3. Use the following linked .yml file to keep the documentation consistent throughout the backend.
 - [Example .yml file](/static/oas/v1/sports/stats/penalties.yml)
+
+## Adding and Updating Authentication
+
+### Generating Key
+
+1. Install openssl
+2. Generate secret key
+   - `openssl rand -base64 32`
+3. Add key to [local.env](../config/local.env) config
 
 ### Adding Auth to API Endpoints
 There are several different roles that a user can be associated to:

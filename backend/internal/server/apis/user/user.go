@@ -1,6 +1,9 @@
 package user
 
 import (
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/base64"
 	"errors"
 	"net/mail"
 	"reflect"
@@ -10,6 +13,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/jak103/powerplay/internal/config"
 	"github.com/jak103/powerplay/internal/db"
 	"github.com/jak103/powerplay/internal/models"
 	"github.com/jak103/powerplay/internal/server/apis"
@@ -117,6 +121,8 @@ func createUserAccount(c *fiber.Ctx) error {
 		return responder.BadRequest(c, err.Error())
 	}
 
+	u.Password = hashPassword(creds.Password)
+
 	log.Debug("Password : %v", u.Password)
 
 	// write to database
@@ -136,4 +142,15 @@ func createUserAccount(c *fiber.Ctx) error {
 
 	return responder.OkWithData(c, u)
 
+}
+
+func hashPassword(password string) string {
+	key := config.Vars.PasswordKey
+	keyBytes := []byte(key)
+
+	passwordBytes := []byte(password)
+	mac := hmac.New(sha256.New, keyBytes)
+	mac.Write(passwordBytes)
+	hashedPassword := mac.Sum(nil)
+	return base64.StdEncoding.EncodeToString(hashedPassword)
 }
