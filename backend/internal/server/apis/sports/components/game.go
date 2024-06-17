@@ -1,7 +1,6 @@
 package components
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/jak103/powerplay/internal/db"
 	"github.com/jak103/powerplay/internal/models"
@@ -71,8 +70,6 @@ func createGame(c *fiber.Ctx) error {
 	validate := validator.New()
 	err := validate.Struct(game)
 	if err != nil {
-		
-		fmt.Println(err)
 		return responder.BadRequest(c, "Failed to validate request")
 	}
 
