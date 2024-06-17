@@ -62,6 +62,7 @@ func postLeagueHandler(c *fiber.Ctx) error {
 
 	db := db.GetSession(c)
 	err = db.CreateLeague(leagueRequest)
+
 	if err != nil {
 		log.WithErr(err).Alert("Failed to save leagues request")
 		return responder.InternalServerError(c)

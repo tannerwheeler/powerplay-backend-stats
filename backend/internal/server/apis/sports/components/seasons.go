@@ -49,5 +49,5 @@ func postSeasonsHandler(c *fiber.Ctx) error {
 		return responder.BadRequest(c, "Could not save season to database")
 	}
 
-	return responder.Ok(c)
+	return responder.CreatedWithData(c, record)
 }
