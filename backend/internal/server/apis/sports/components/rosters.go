@@ -9,6 +9,7 @@ import (
 	"github.com/jak103/powerplay/internal/utils/locals"
 	"github.com/jak103/powerplay/internal/utils/log"
 	"github.com/jak103/powerplay/internal/utils/responder"
+	"github.com/go-playground/validator/v10"
 )
 
 func init() {
@@ -32,6 +33,12 @@ func postRoster(c *fiber.Ctx) error {
 		return responder.BadRequest(c, msg)
 	}
 
+	validate := validator.New()
+	err = validate.Struct(body)
+	if err != nil {
+		return responder.BadRequest(c, "Failed to validate request")
+	}
+
 	db := db.GetSession(c)
 
 	log.Debug("Captain : %s", body.CaptainEmail)
@@ -41,6 +48,7 @@ func postRoster(c *fiber.Ctx) error {
 		return responder.InternalServerError(c)
 	}
 
+
 	if capt == nil {
 		log.WithErr(err).Alert("Captain DNE")
 		return responder.InternalServerError(c)
@@ -48,7 +56,7 @@ func postRoster(c *fiber.Ctx) error {
 
 	log.Debug("Players : %v", body.PlayerEmails)
 	players, err := db.GetUserByEmails(body.PlayerEmails)
-	if err != nil {
+	if err != nil ||  len(players) == 0 {
 		log.WithErr(err).Alert("Failed to get players")
 		return responder.InternalServerError(c)
 	}
