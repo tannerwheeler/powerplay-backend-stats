@@ -18,7 +18,7 @@ type Game struct {
 	VenueID  *uint      `json:"venue_id" validate:"required"`
 	Status   Status    `json:"status" validate:"required"`
 
-	HomeTeam            Team   `json:"home_team"`
+	HomeTeam            *Team   `json:"home_team"`
 	HomeTeamID          uint   `json:"home_team_id" validate:"required"`
 	HomeTeamRoster      *Roster `json:"home_team_roster"`
 	HomeTeamRosterID    *uint   `json:"home_team_roster_id" validate:"required"`
@@ -26,7 +26,7 @@ type Game struct {
 	HomeTeamShotsOnGoal int    `json:"home_team_shots_on_goal" validate:"required"`
 	HomeTeamScore       int    `json:"home_team_score" validate:"required"`
 
-	AwayTeam            Team   `json:"away_team"`
+	AwayTeam            *Team   `json:"away_team"`
 	AwayTeamID          uint   `json:"away_team_id" validate:"required"`
 	AwayTeamRoster      *Roster `json:"away_team_roster"`
 	AwayTeamRosterID    *uint   `json:"away_team_roster_id" validate:"required"`
