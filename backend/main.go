@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+
 	"github.com/jak103/powerplay/internal/db/seeders/fake_data"
 	"github.com/jak103/powerplay/internal/models"
 
