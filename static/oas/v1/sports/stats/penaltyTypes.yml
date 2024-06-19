@@ -40,7 +40,10 @@ paths:
       tags:
         - Penalties
       summary: Update Penalty Type
-      description: Updates a penalty type
+      description: |
+        Updates a penalty type
+        
+        Note: You must include the whole Penalty Type object in the request body, including the id
       parameters:
         - name: id
           in: path
