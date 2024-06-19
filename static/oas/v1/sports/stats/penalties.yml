@@ -43,7 +43,7 @@ paths:
             schema:
               $ref: "#/components/schemas/PostPenaltiesRequest"
       responses:
-        200:
+        201:
           description: Successfully created a new penalty
           content:
             application/json:
@@ -104,6 +104,7 @@ components:
                   name: Hooking
                   duration: 2
                   severity: Minor
+
     PostPenaltiesRequest:
       type: object
       properties:
@@ -135,6 +136,53 @@ components:
           type: int
           description: The ID of the Penalty Type
           example: 1
+
+    PenaltiesModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id of the roster
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          description: Created time for the roster
+          example: "2024-06-06T23:41:00.352908346Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Updated time for the roster
+          example: "2024-06-06T23:41:00.352908346Z"
+        player_id:
+          type: int
+          description: The player's ID
+          example: 1
+        team_id:
+          type: int
+          description: The team's ID that the player is associated with
+          example: 1
+        game_id:
+          type: int
+          description: The game's ID
+          example: 1
+        period:
+          type: int
+          description: The period in the game that the penalty occurred
+          example: 1
+        duration:
+          type: int
+          description: The duration the player is benched in seconds
+          example: 1
+        created_by:
+          type: int
+          description: The ID of the user that creates the penalty
+          example: 2
+        penalty_type_id:
+          type: int
+          description: The ID of the Penalty Type
+          example: 1
+
     PostPenaltiesResponse:
       type: object
       properties:
@@ -144,6 +192,9 @@ components:
           $ref: "../../common/schemas.yml#/components/schemas/StatusString200"
         request_id:
           $ref: "../../common/schemas.yml#/components/schemas/RequestId"
+        response_data:
+          $ref: "#/components/schemas/PenaltiesModel"
+
     GetPenaltyTypeResponse:
       type: object
       properties:

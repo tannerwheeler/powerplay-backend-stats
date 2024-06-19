@@ -2,9 +2,9 @@ package db
 
 import "github.com/jak103/powerplay/internal/models"
 
-func (s session) SaveLogo(logo *models.Logo) error {
+func (s session) SaveLogo(logo *models.Logo) (*models.Logo, error) {
 	result := s.Create(logo)
-	return result.Error
+	return resultOrError(logo, result)
 }
 
 func (s session) GetLogoByID(id string) (*models.Logo, error) {

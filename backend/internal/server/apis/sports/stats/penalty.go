@@ -55,11 +55,11 @@ func postPenaltyHandler(c *fiber.Ctx) error {
 	}
 
 	db := db.GetSession(c)
-	err = db.CreatePenalty(penaltyRequest)
+	record, err := db.CreatePenalty(penaltyRequest)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to save penalty request")
 		return responder.InternalServerError(c)
 	}
 
-	return responder.Ok(c)
+	return responder.CreatedWithData(c, record)
 }

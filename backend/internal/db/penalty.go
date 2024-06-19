@@ -8,9 +8,9 @@ func (s session) GetPenalties() ([]models.Penalty, error) {
 	return resultsOrError(penalties, err)
 }
 
-func (s session) CreatePenalty(request *models.Penalty) error {
+func (s session) CreatePenalty(request *models.Penalty) (*models.Penalty, error) {
 	result := s.Create(request)
-	return result.Error
+	return resultOrError(request, result)
 }
 
 func (s session) GetPenaltyTypes() ([]models.PenaltyType, error) {

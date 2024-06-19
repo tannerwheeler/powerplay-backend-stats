@@ -27,14 +27,14 @@ func postVenueHandler (c *fiber.Ctx) error {
 	}
 
 	db := db.GetSession(c)
-	_,  err = db.SaveVenue(venueRequest)
+	record, err := db.SaveVenue(venueRequest)
 	
 	if err != nil {
 		log.WithErr(err).Error("Failed to save venue request")
 		return responder.InternalServerError(c)
 	}
 
-	return responder.Ok(c)
+	return responder.CreatedWithData(c, record)
 }
 
 func getVenuesHandler (c *fiber.Ctx) error {

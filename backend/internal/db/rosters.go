@@ -12,10 +12,9 @@ func (s session) GetRosters() ([]models.Roster, error) {
 	return resultsOrError(rosters, err)
 }
 
-func (s session) CreateRoster(roster *models.Roster) error {
+func (s session) CreateRoster(roster *models.Roster) (*models.Roster, error) {
 	result := s.Create(roster)
-
-	return result.Error
+	return resultOrError(roster, result)
 }
 
 func (s session) GetUserByUsername(email string) (*models.User, error) {

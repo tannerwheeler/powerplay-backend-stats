@@ -14,7 +14,7 @@ paths:
             schema:
               $ref: "#/components/schemas/ShotOnGoalRequest"
       responses:
-        200:
+        201:
           description: The request body should contain the details of the shot on goal.
           content:
             application/json:
@@ -50,6 +50,40 @@ components:
         - scorekeeper
         - shot_time
 
+    ShotOnGoalModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id of the season
+          example: 11
+        created_at:
+          type: string
+          format: date-time
+          description: Created time for the shot on goal
+          example: "2024-06-10T21:37:13.836918106Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Updated time for the goal
+          example: "2024-06-10T21:37:13.836918106Z"
+        game_id:
+          type: integer
+          description: The game id
+          example: 123
+        team_id: 
+          type: integer
+          description: The game id
+          example: 45
+        shot_time:
+          type: integer
+          description: The shot time
+          example: 3600
+        scorekeeper:
+          type: integer
+          description: The scorekeeper
+          example: 1
+
     ShotOnGoalResponse:
         type: object
         properties:
@@ -60,14 +94,4 @@ components:
           request_id:
             $ref: "../../common/schemas.yml#/components/schemas/RequestId"
           response_data:
-            type: object
-            properties:
-              shot_on_goal_id:
-                type: integer
-                description: The ID of the newly created shot on goal record
-                example: 789
-              created_at:
-                type: string
-                format: date-time
-                description: The timestamp when the shot on goal was created
-                example: 2024-04-08T00:20:46.503702735Z
+            $ref: "#/components/schemas/ShotOnGoalModel"

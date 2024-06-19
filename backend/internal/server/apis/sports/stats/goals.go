@@ -39,9 +39,7 @@ func postGoalsHandler(c *fiber.Ctx) error {
 	if record == nil {
 		return responder.BadRequest(c, "Could not post goal into database")
 	}
-
-	return responder.Ok(c)
-
+	return responder.CreatedWithData(c, record)
 }
 
 func getGoalsHandler(c *fiber.Ctx) error {

@@ -30,7 +30,7 @@ paths:
             schema:
               $ref: "#/components/schemas/SeasonRequest"
       responses:
-        200:
+        201:
           description: Successfully posted season
           content:
             application/json:
@@ -94,6 +94,50 @@ components:
           description: End time for the season
           example: "2023-09-01T00:00:00Z"
 
+    SeasonModel: 
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id of the season
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          description: Created time for the season
+          example: "2024-06-06T23:41:00.352908346Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Updated time for the season
+          example: "2024-06-06T23:41:00.352908346Z"
+        name:
+          type: string
+          description: The name of the season
+          example: "Season 1"
+        start:
+          type: string
+          format: date-time
+          description: Start time for the season
+          example: "2023-05-01T00:00:00Z"
+        end:
+          type: string
+          format: date-time
+          description: End time for the season
+          example: "2023-05-01T00:00:00Z"
+        registrations: 
+          type: array
+          description: List of registrations
+          example: []
+        schedule: 
+          type: array
+          description: List for schedule
+          example: []
+        leagues: 
+          type: array
+          description: List of leagues
+          example: []
+
     SeasonResponse:
       type: object
       properties:
@@ -104,4 +148,4 @@ components:
         request_id:
           $ref: "../../common/schemas.yml#/components/schemas/RequestId"
         response_data:
-          type: object
+          $ref: "#/components/schemas/SeasonModel"

@@ -37,5 +37,5 @@ func postShotsOnGoalHandler(c *fiber.Ctx) error {
 	if record == nil {
 		return responder.BadRequest(c,"Could not Post shot on goal to database.")
 	}
-	return responder.Ok(c)	
+	return responder.CreatedWithData(c, record)
 }

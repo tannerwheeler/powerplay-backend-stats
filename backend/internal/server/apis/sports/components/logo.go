@@ -39,13 +39,13 @@ func handleLogoUpload(c *fiber.Ctx) error {
 	logo := models.Logo{
 		Image: imageBuffer,
 	}
-	err = db.SaveLogo(&logo)
+	record, err := db.SaveLogo(&logo)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to save logo")
 		return responder.InternalServerError(c)
 	}
 
-	return responder.Ok(c)
+	return responder.CreatedWithData(c, record)
 }
 
 func handleGetLogoByID(c *fiber.Ctx) error {

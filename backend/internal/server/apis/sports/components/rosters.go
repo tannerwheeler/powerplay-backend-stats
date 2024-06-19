@@ -59,14 +59,13 @@ func postRoster(c *fiber.Ctx) error {
 		Players:   players,
 	}
 
-	err = db.CreateRoster(&roster)
+	record, err := db.CreateRoster(&roster)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to save roster request")
 		return responder.InternalServerError(c)
 
 	}
-
-	return responder.Ok(c)
+	return responder.CreatedWithData(c, record)
 }
 
 func getRosters(c *fiber.Ctx) error {

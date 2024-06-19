@@ -30,7 +30,7 @@ paths:
             schema:
               $ref: "#/components/schemas/GoalRequest"
       responses:
-        200:
+        201:
           description: Successfully posted goal
           content:
             application/json:
@@ -122,6 +122,60 @@ components:
           description: If a penalty happened
           example: true
 
+    GoalModel:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id of the goal
+          example: 1
+        created_at:
+          type: string
+          format: date-time
+          description: Created time for the season
+          example: "2024-06-07T02:49:47.654050409Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Updated time for the season
+          example: "2024-06-07T02:49:47.654050409Z"
+        user_id: 
+          type: integer
+          description: The user's id
+          example: 12
+        game_id: 
+          type: integer
+          description: The game id
+          example: 13
+        team_id: 
+          type: integer
+          description: The team id
+          example: 1
+        duration:
+          type: integer
+          description: The duration
+          example: 27
+        period:
+          type: integer
+          description: The period scored 
+          example: 3
+        assist1_id:
+          type: integer
+          description: The assist 1 id (player)
+          example: 57
+        assist2_id:
+          type: integer
+          description: The assist 2 id (player)
+          example: 84
+        playerdifferential:
+          type: integer
+          description: Powerplay information
+          example: -2
+        ispenaltyshot:
+          type: boolean
+          description: If penalty happened
+          example: true 
+
     GoalResponse:
       type: object
       properties:
@@ -132,4 +186,4 @@ components:
         request_id:
           $ref: "../../common/schemas.yml#/components/schemas/RequestId"
         response_data:
-          type: object
+          $ref: "#/components/schemas/GoalModel"

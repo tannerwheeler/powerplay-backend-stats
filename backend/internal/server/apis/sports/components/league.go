@@ -68,5 +68,5 @@ func postLeagueHandler(c *fiber.Ctx) error {
 		return responder.InternalServerError(c)
 	}
 
-	return responder.OkWithData(c, league)
+	return responder.CreatedWithData(c, league)
 }
