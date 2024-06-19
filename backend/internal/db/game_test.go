@@ -78,7 +78,7 @@ func (s *dbTestingSuite) TestUpdateInvalidID() {
 	invalidID := "9999"
 	err := s.session.UpdateGame(invalidID, updatedGame)
 	s.NotNil(err, "Expected an error when updating game with invalid ID")
-	s.Contains(err.Error(), "record not found") // Adjust based on actual error message
+	s.Contains(err.Error(), "record not found")
 
 	// Check that the game with valid ID still exists and is unmodified
 	dbGame, err := s.session.GetGameByID(fmt.Sprint(game.ID))
@@ -86,6 +86,7 @@ func (s *dbTestingSuite) TestUpdateInvalidID() {
 	s.NotNil(dbGame)
 	s.Equal(models.SCHEDULED, dbGame.Status, "Expected the game status to remain unchanged")
 }
+
 func (s *dbTestingSuite) TestGetGameByID() {
 	// Use the helper to create a game
 	game := s.CreateGameHelper()
