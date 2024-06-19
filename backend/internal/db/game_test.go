@@ -86,22 +86,31 @@ func (s *dbTestingSuite) TestUpdateInvalidID() {
 	s.NotNil(dbGame)
 	s.Equal(models.SCHEDULED, dbGame.Status, "Expected the game status to remain unchanged")
 }
-
 func (s *dbTestingSuite) TestGetGameByID() {
 	// Use the helper to create a game
 	game := s.CreateGameHelper()
 
 	// Correct call for getting the game by ID
 	dbGame, err := s.session.GetGameByID(fmt.Sprint(game.ID))
+	s.Nil(err, "Expected no error getting game with valid ID")
 	s.NotNil(dbGame)
-	s.Nil(err)
+
+	// Validate that properties in dbGame are what you expect them to be
+	s.Equal(game.ID, dbGame.ID, "Expected game ID to match")
+	s.Equal(game.SeasonID, dbGame.SeasonID, "Expected season ID to match")
+	s.Equal(game.VenueID, dbGame.VenueID, "Expected venue ID to match")
+	s.Equal(game.Status, dbGame.Status, "Expected status to match")
+	s.Equal(game.HomeTeamID, dbGame.HomeTeamID, "Expected home team ID to match")
+	s.Equal(game.AwayTeamID, dbGame.AwayTeamID, "Expected away team ID to match")
+	s.Equal(game.HomeTeamLockerRoom, dbGame.HomeTeamLockerRoom, "Expected home team locker room to match")
+	s.Equal(game.AwayTeamLockerRoom, dbGame.AwayTeamLockerRoom, "Expected away team locker room to match")
+	s.WithinDuration(game.Start, dbGame.Start, time.Second, "Expected start time to be within one second")
 }
 
 func (s *dbTestingSuite) TestGetInvalidID() {
-	// Incorrect call for getting the game by ID (non-existent ID) PUT INTO DIFFERENT TEST
 	invalidID := "9999"
 	dbGame, err := s.session.GetGameByID(invalidID)
 	s.NotNil(err)
 	s.Nil(dbGame)
-	s.Contains(err.Error(), "record not found") // Adjust based on actual error message
+	s.Contains(err.Error(), "record not found")
 }
