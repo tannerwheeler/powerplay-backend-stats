@@ -1,13 +1,12 @@
 package stats
 
 import (
-	"strconv"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/jak103/powerplay/internal/db"
 	"github.com/jak103/powerplay/internal/models"
 	"github.com/jak103/powerplay/internal/server/apis"
 	"github.com/jak103/powerplay/internal/server/services/auth"
+	"github.com/jak103/powerplay/internal/utils/formatters"
 	"github.com/jak103/powerplay/internal/utils/locals"
 	"github.com/jak103/powerplay/internal/utils/responder"
 )
@@ -24,7 +23,7 @@ func getPenaltyTypes(c *fiber.Ctx) error {
 	db := db.GetSession(c)
 	penaltyTypes, err := db.GetPenaltyTypes()
 	if err != nil {
-		log.WithErr(err).Alert("Failed to get all penalty types from the database")
+		log.WithErr(err).Error("Failed to get all penalty types from the database")
 		return responder.InternalServerError(c)
 	}
 
@@ -38,14 +37,14 @@ func postPenaltyTypeHandler(c *fiber.Ctx) error {
 	penaltyType := &models.PenaltyType{}
 	err := c.BodyParser(penaltyType)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to parse penalty type request payload")
+		log.WithErr(err).Error("Failed to parse penalty type request payload")
 		return responder.BadRequest(c, "Failed to parse penalty type request payload")
 	}
 
 	db := db.GetSession(c)
 	penaltyType, err = db.CreatePenaltyType(penaltyType)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to save penalty type request")
+		log.WithErr(err).Error("Failed to save penalty type request")
 		return responder.InternalServerError(c)
 	}
 
@@ -60,11 +59,11 @@ func putPenaltyTypeHandler(c *fiber.Ctx) error {
 	penaltyType := &models.PenaltyType{}
 	err := c.BodyParser(penaltyType)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to parse penalty type request payload")
+		log.WithErr(err).Error("Failed to parse penalty type request payload")
 		return responder.BadRequest(c, "Failed to parse penalty type request payload")
 	}
-	if strconv.FormatUint(uint64(penaltyType.ID), 10) != id { // Ugly, looking for a better way to do this
-		log.WithErr(err).Alert("Penalty Type ID in URL does not match ID in payload")
+	if formatters.UintToString(penaltyType.ID) != id {
+		log.WithErr(err).Error("Penalty Type ID in URL does not match ID in payload")
 		return responder.BadRequest(c, "Penalty Type ID in URL does not match ID in payload")
 	}
 
@@ -72,7 +71,7 @@ func putPenaltyTypeHandler(c *fiber.Ctx) error {
 	db := db.GetSession(c)
 	newPenaltyType, err := db.UpdatePenaltyType(penaltyType)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to update penalty type with ID %s", id)
+		log.WithErr(err).Error("Failed to update penalty type with ID %s", id)
 		return responder.InternalServerError(c)
 	}
 
@@ -86,16 +85,16 @@ func deletePenaltyTypeHandler(c *fiber.Ctx) error {
 
 	// Get penalty type
 	penaltyType, err := db.GetPenaltyTypeByID(id)
-	if err != nil {
-		log.WithErr(err).Alert("Delete penalty type failed because there is no penalty type with ID %s", id)         // TODO: Not working
-		return responder.BadRequest(c, "Delete penalty type failed because there is no penalty type with ID %s", id) // Make sure this syntax works
+	if penaltyType == nil {
+		log.WithErr(err).Error("Delete penalty type failed because there is no penalty type with ID %s", id)
+		return responder.BadRequest(c, "Delete penalty type failed because there is no penalty type with ID %s", id)
 	}
 
 	// Delete penalty type
 	// Yes this could just be done first, but checking that the penalty type exists allows for a more specific error message
 	err = db.DeletePenaltyType(penaltyType)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to delete penalty type request")
+		log.WithErr(err).Error("Failed to delete penalty type request")
 		return responder.InternalServerError(c)
 	}
 

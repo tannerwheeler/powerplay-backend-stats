@@ -32,16 +32,16 @@ func (s session) GetPenaltiesByPlayerID(playerID string) ([]models.Penalty, erro
 	return resultsOrError(penalties, err)
 }
 
-func (s session) CreatePenalty(request *models.Penalty) (*models.Penalty, error) {
-	err := s.Create(request)
-	return resultOrError(request, err)
+func (s session) CreatePenalty(penalty *models.Penalty) (*models.Penalty, error) {
+	err := s.Create(penalty)
+	return resultOrError(penalty, err)
 }
 
-func (s session) UpdatePenalty(request *models.Penalty) (*models.Penalty, error) {
-	err := s.Save(request)
-	return resultOrError(request, err)
+func (s session) UpdatePenalty(penalty *models.Penalty) (*models.Penalty, error) {
+	err := s.Save(penalty)
+	return resultOrError(penalty, err)
 }
 
-func (s session) DeletePenalty(request *models.Penalty) error {
-	return s.Delete(request).Error
+func (s session) DeletePenalty(penalty *models.Penalty) error {
+	return s.Delete(penalty).Error
 }

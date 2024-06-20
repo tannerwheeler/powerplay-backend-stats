@@ -14,16 +14,16 @@ func (s session) GetPenaltyTypeByID(id string) (*models.PenaltyType, error) {
 	return resultOrError(penaltyType, err)
 }
 
-func (s session) CreatePenaltyType(request *models.PenaltyType) (*models.PenaltyType, error) {
-	err := s.Create(request)
-	return resultOrError(request, err)
+func (s session) CreatePenaltyType(penaltyType *models.PenaltyType) (*models.PenaltyType, error) {
+	err := s.Create(penaltyType)
+	return resultOrError(penaltyType, err)
 }
 
-func (s session) UpdatePenaltyType(request *models.PenaltyType) (*models.PenaltyType, error) {
-	err := s.Save(request)
-	return resultOrError(request, err)
+func (s session) UpdatePenaltyType(penaltyType *models.PenaltyType) (*models.PenaltyType, error) {
+	err := s.Save(penaltyType)
+	return resultOrError(penaltyType, err)
 }
 
-func (s session) DeletePenaltyType(request *models.PenaltyType) error {
-	return s.Delete(request).Error
+func (s session) DeletePenaltyType(penaltyType *models.PenaltyType) error {
+	return s.Delete(penaltyType).Error
 }

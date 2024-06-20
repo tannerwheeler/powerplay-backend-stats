@@ -1,13 +1,12 @@
 package stats
 
 import (
-	"strconv"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/jak103/powerplay/internal/db"
 	"github.com/jak103/powerplay/internal/models"
 	"github.com/jak103/powerplay/internal/server/apis"
 	"github.com/jak103/powerplay/internal/server/services/auth"
+	"github.com/jak103/powerplay/internal/utils/formatters"
 	"github.com/jak103/powerplay/internal/utils/locals"
 	"github.com/jak103/powerplay/internal/utils/responder"
 )
@@ -28,11 +27,10 @@ func getPenaltiesHandler(c *fiber.Ctx) error {
 	db := db.GetSession(c)
 	penalties, err := db.GetPenalties()
 	if err != nil {
-		log.WithErr(err).Alert("Failed to get all penalties from the database")
+		log.WithErr(err).Error("Failed to get all penalties from the database")
 		return responder.InternalServerError(c)
 	}
 
-	// Send JSON response
 	return responder.OkWithData(c, penalties)
 }
 
@@ -42,11 +40,10 @@ func getPenaltyByIdHandler(c *fiber.Ctx) error {
 	db := db.GetSession(c)
 	penalty, err := db.GetPenaltyByID(id)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to get the penalty from the database with ID %s", id)
+		log.WithErr(err).Error("Failed to get the penalty from the database with ID %s", id)
 		return responder.InternalServerError(c)
 	}
 
-	// Send JSON response
 	return responder.OkWithData(c, penalty)
 }
 
@@ -56,11 +53,10 @@ func getPenaltiesByGameIdHandler(c *fiber.Ctx) error {
 	db := db.GetSession(c)
 	penalties, err := db.GetPenaltiesByGameID(gameID)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to get all penalties from the database for Game ID %s", gameID)
+		log.WithErr(err).Error("Failed to get all penalties from the database for Game ID %s", gameID)
 		return responder.InternalServerError(c)
 	}
 
-	// Send JSON response
 	return responder.OkWithData(c, penalties)
 }
 
@@ -70,11 +66,10 @@ func getPenaltiesByTeamIdHandler(c *fiber.Ctx) error {
 	db := db.GetSession(c)
 	penalties, err := db.GetPenaltiesByTeamID(teamID)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to get all penalties from the database for Team ID %s", teamID)
+		log.WithErr(err).Error("Failed to get all penalties from the database for Team ID %s", teamID)
 		return responder.InternalServerError(c)
 	}
 
-	// Send JSON response
 	return responder.OkWithData(c, penalties)
 }
 
@@ -84,11 +79,10 @@ func getPenaltiesByPlayerIdHandler(c *fiber.Ctx) error {
 	db := db.GetSession(c)
 	penalties, err := db.GetPenaltiesByPlayerID(playerID)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to get all penalties from the database for Player ID %s", playerID)
+		log.WithErr(err).Error("Failed to get all penalties from the database for Player ID %s", playerID)
 		return responder.InternalServerError(c)
 	}
 
-	// Send JSON response
 	return responder.OkWithData(c, penalties)
 }
 
@@ -99,14 +93,15 @@ func postPenaltyHandler(c *fiber.Ctx) error {
 	penaltyRequest := &models.Penalty{}
 	err := c.BodyParser(penaltyRequest)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to parse penalty request payload")
+		log.WithErr(err).Error("Failed to parse penalty request payload")
 		return responder.BadRequest(c, "Failed to parse penalty request payload")
 	}
 
+	// Create penalty
 	db := db.GetSession(c)
 	penalty, err := db.CreatePenalty(penaltyRequest)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to save penalty request")
+		log.WithErr(err).Error("Failed to save penalty request")
 		return responder.InternalServerError(c)
 	}
 
@@ -121,11 +116,11 @@ func putPenaltyHandler(c *fiber.Ctx) error {
 	penaltyRequest := &models.Penalty{}
 	err := c.BodyParser(penaltyRequest)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to parse penalty request payload")
+		log.WithErr(err).Error("Failed to parse penalty request payload")
 		return responder.BadRequest(c, "Failed to parse penalty request payload")
 	}
-	if strconv.FormatUint(uint64(penaltyRequest.ID), 10) != id { // Ugly, looking for a better way to do this
-		log.WithErr(err).Alert("Penalty ID in URL does not match ID in payload")
+	if formatters.UintToString(penaltyRequest.ID) != id {
+		log.WithErr(err).Error("Penalty ID in URL does not match ID in payload")
 		return responder.BadRequest(c, "Penalty ID in URL does not match ID in payload")
 	}
 
@@ -133,7 +128,7 @@ func putPenaltyHandler(c *fiber.Ctx) error {
 	db := db.GetSession(c)
 	penalty, err := db.UpdatePenalty(penaltyRequest)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to update penalty with ID %s", id)
+		log.WithErr(err).Error("Failed to update penalty with ID %s", id)
 		return responder.InternalServerError(c)
 	}
 
@@ -147,16 +142,16 @@ func deletePenaltyHandler(c *fiber.Ctx) error {
 
 	// Get penalty
 	penalty, err := db.GetPenaltyByID(id)
-	if err != nil {
-		log.WithErr(err).Alert("Delete penalty failed because there is no penalty with ID %s", id)         // TODO: Not working
-		return responder.BadRequest(c, "Delete penalty failed because there is no penalty with ID %s", id) // Make sure this syntax works
+	if penalty == nil {
+		log.WithErr(err).Error("Delete penalty failed because there is no penalty with ID %s", id)
+		return responder.BadRequest(c, "Delete penalty failed because there is no penalty with ID %s", id)
 	}
 
 	// Delete penalty
 	// Yes this could just be done first, but checking that the penalty exists allows for a more specific error message
 	err = db.DeletePenalty(penalty)
 	if err != nil {
-		log.WithErr(err).Alert("Failed to delete penalty request")
+		log.WithErr(err).Error("Failed to delete penalty request")
 		return responder.InternalServerError(c)
 	}
 
