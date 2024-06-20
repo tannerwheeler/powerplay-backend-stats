@@ -16,6 +16,7 @@ require (
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/stretchr/testify v1.9.0
 	github.com/valyala/fasthttp v1.54.0
+	golang.org/x/crypto v0.23.0
 	gorm.io/driver/postgres v1.5.9
 	gorm.io/gorm v1.25.10
 )
@@ -55,7 +56,6 @@ require (
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	golang.org/x/crypto v0.23.0 // indirect
 	golang.org/x/net v0.23.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect

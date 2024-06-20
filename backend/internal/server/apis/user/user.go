@@ -1,9 +1,6 @@
 package user
 
 import (
-	"crypto/hmac"
-	"crypto/sha256"
-	"encoding/base64"
 	"errors"
 	"net/mail"
 	"reflect"
@@ -13,13 +10,14 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/jak103/powerplay/internal/config"
 	"github.com/jak103/powerplay/internal/db"
 	"github.com/jak103/powerplay/internal/models"
 	"github.com/jak103/powerplay/internal/server/apis"
 	"github.com/jak103/powerplay/internal/server/services/auth"
 	"github.com/jak103/powerplay/internal/utils/locals"
+	"github.com/jak103/powerplay/internal/utils/log"
 	"github.com/jak103/powerplay/internal/utils/responder"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type createResponse struct {
@@ -144,13 +142,31 @@ func createUserAccount(c *fiber.Ctx) error {
 
 }
 
-func hashPassword(password string) string {
-	key := config.Vars.PasswordKey
-	keyBytes := []byte(key)
+// func hashPassword(password string) string {
+// 	key := config.Vars.PasswordKey
+// 	keyBytes := []byte(key)
 
-	passwordBytes := []byte(password)
-	mac := hmac.New(sha256.New, keyBytes)
-	mac.Write(passwordBytes)
-	hashedPassword := mac.Sum(nil)
-	return base64.StdEncoding.EncodeToString(hashedPassword)
+// 	passwordBytes := []byte(password)
+// 	mac := hmac.New(sha256.New, keyBytes)
+// 	mac.Write(passwordBytes)
+// 	hashedPassword := mac.Sum(nil)
+// 	return base64.StdEncoding.EncodeToString(hashedPassword)
+// }
+
+func hashPassword(password string) []byte {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		log.Debug("Failure hashing password: %v", err.Error())
+	}
+
+	return hashedPassword
+}
+
+func compare(input, password string, hashedPW []byte) bool {
+	err := bcrypt.CompareHashAndPassword(hashedPW, []byte(input))
+	if err != nil {
+		return false
+	}
+
+	return true
 }
