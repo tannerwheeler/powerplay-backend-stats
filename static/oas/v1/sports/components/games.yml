@@ -114,10 +114,7 @@ components:
           type: string
           format: date-time
           example: "2023-01-01T12:00:00Z"
-        end:
-          type: string
-          format: date-time
-          example: "2023-01-01T14:00:00Z"
+       
         status:
           type: string
           enum: [SCHEDULED, IN_PROGRESS, FINAL]

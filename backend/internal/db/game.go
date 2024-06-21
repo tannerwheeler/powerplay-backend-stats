@@ -20,7 +20,7 @@ func (s *session) GetGames() ([]models.Game, error) {
 // GetGameByID retrieves a game by its ID from the database.
 func (s *session) GetGameByID(gameID string) (*models.Game, error) {
 	var game models.Game
-	err := s.First(&game, "id = ?", gameID).Error
+	err := s.Preload("HomeTeam").First(&game, "id = ?", gameID).Error
 	if err != nil {
 		log.WithErr(err).Alert("Failed to retrieve game from database")
 		return nil, err
