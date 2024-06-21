@@ -19,31 +19,6 @@ paths:
                 $ref: '#/schemas/UserCreationResponse'
         400:
           $ref: "../common/errors.yml#/components/responses/BadRequest"
-    get:
-      tags:
-        - Users
-      summary: User by credentials
-      description: Get User details by email and password
-      parameters:
-        - name: email
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: password
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: The response body should contain the user details
-          content:
-            application/json:
-              schema:
-                $ref: '#/schemas/User'
-        400:
-          $ref: "../../common/errors.yml#/components/responses/BadRequest"
 
 # made the input schema follow the same format as the database table for users. I also removed fields that would be populated by the server. 
 schemas:
@@ -65,6 +40,11 @@ schemas:
       phone:
         type: string
         example: '123-456-7890'
+      roles: 
+        type: array
+        items:   
+          type: string
+          example: player
       skill_level: # will this match skill level? 
         type: integer
         example: 5
@@ -77,11 +57,11 @@ schemas:
     type: object
     properties:
       status_code:
-        $ref: "../common/schemas.yml#/schemas/StatusCode200"
+        $ref: "../common/schemas.yml#/components/schemas/StatusCode200"
       status_string:
-        $ref: "../common/schemas.yml#/schemas/StatusString200"
+        $ref: "../common/schemas.yml#/components/schemas/StatusString200"
       request_id:
-        $ref: "../common/schemas.yml#/schemas/RequestId"
+        $ref: "../common/schemas.yml#/components/schemas/RequestId"
       response_data:
         type: object
         properties:
@@ -91,6 +71,7 @@ schemas:
           user_id:
             type: integer
             example:
+
 
 
 

@@ -56,16 +56,20 @@ func Setup(app *fiber.App) {
 	}))
 
 	if config.Vars.Env == constants.Local || config.Vars.Env == constants.Test {
-		log.Error("Setting permissive CORS")
+		log.Alert("Setting permissive CORS")
 		// CORS https://docs.gofiber.io/api/middleware/cors /
 		app.Use(cors.New(cors.Config{
-			AllowOrigins:     "http://localhost:9200",
+			AllowOrigins:     "http://localhost:9002",
 			AllowCredentials: true,
 			AllowMethods:     "POST, GET, OPTIONS, PUT, DELETE",
 			AllowHeaders:     "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, Cookie",
 			ExposeHeaders:    "Set-Cookie",
 		}))
 	}
+
+	// Setup auth - is this correct?
+	// app.Use(auth.NewKeyRecord())
+	// app.Use(auth.NewAuthorizer())
 
 	// TODO rate limiter https://github.com/gofiber/fiber/tree/v2/middleware/limiter
 	// TODO otel traces https://github.com/gofiber/contrib/tree/main/otelfiber
