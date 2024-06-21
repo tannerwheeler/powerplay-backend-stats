@@ -55,24 +55,6 @@ var (
 	ManagerOnly   Roles = []Role{Manager}
 )
 
-// func (rs *Roles) Scan(value interface{}) error {
-// 	if value == nil {
-// 		*rs = nil
-// 		return nil
-// 	}
-
-// 	bytes, ok := value.([]byte)
-// 	if !ok {
-// 		return errors.New("invalid type for RoleSlice")
-// 	}
-
-// 	return json.Unmarshal(bytes, rs)
-// }
-
-// func (rs Roles) Value() (driver.Value, error) {
-// 	return json.Marshal(rs)
-// }
-
 func (rs *Roles) Scan(value interface{}) error {
 	if value == nil {
 		*rs = nil

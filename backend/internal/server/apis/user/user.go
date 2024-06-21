@@ -91,8 +91,6 @@ func createUserAccount(c *fiber.Ctx) error {
 		return responder.BadRequest(c, "Failed to parse user creation request")
 	}
 
-	log.Debug("Creds Password : %v", creds.Password)
-
 	// marshal the request data into a User struct
 	user := models.User{
 		FirstName:   creds.FirstName,
@@ -103,8 +101,6 @@ func createUserAccount(c *fiber.Ctx) error {
 		SkillLevel:  creds.SkillLevel,
 		DateOfBirth: creds.DateOfBirth,
 	}
-
-	log.Debug("User Password : %v", user.Password)
 
 	// validate the request
 	err = validateUser(&user)
@@ -123,8 +119,6 @@ func createUserAccount(c *fiber.Ctx) error {
 
 	u.Password = hashPassword(creds.Password)
 
-	log.Debug("Password : %v", u.Password)
-
 	// write to database
 	db := db.GetSession(c)
 	log.Debug("Creating user %s", user.Email)
@@ -135,12 +129,12 @@ func createUserAccount(c *fiber.Ctx) error {
 	}
 
 	// response
-	// createdUserResponse := createResponse{
-	// 	Email:  user.Email,
-	// 	UserId: int(u.ID),
-	// }
+	createdUserResponse := createResponse{
+		Email:  user.Email,
+		UserId: int(u.ID),
+	}
 
-	return responder.OkWithData(c, u)
+	return responder.OkWithData(c, createdUserResponse)
 
 }
 
