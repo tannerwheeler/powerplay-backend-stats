@@ -18,11 +18,11 @@ var _ session = &sessionMock{}
 //
 //		// make and configure a mocked session
 //		mockedsession := &sessionMock{
-//			GetGoalsFunc: func() ([]models.Goal, error) {
-//				panic("mock out the GetGoals method")
+//			CreateSeasonFunc: func(goal *models.Season) (*models.Season, error) {
+//				panic("mock out the CreateSeason method")
 //			},
-//			SaveGoalFunc: func(goal *models.Goal) (*models.Goal, error) {
-//				panic("mock out the SaveGoal method")
+//			GetSeasonsFunc: func() ([]models.Season, error) {
+//				panic("mock out the GetSeasons method")
 //			},
 //		}
 //
@@ -31,31 +31,63 @@ var _ session = &sessionMock{}
 //
 //	}
 type sessionMock struct {
-	// GetGoalsFunc mocks the GetGoals method.
-	GetSeasonsFunc func() ([]models.Season, error)
-
-	// SaveGoalFunc mocks the SaveGoal method.
+	// CreateSeasonFunc mocks the CreateSeason method.
 	CreateSeasonFunc func(goal *models.Season) (*models.Season, error)
+
+	// GetSeasonsFunc mocks the GetSeasons method.
+	GetSeasonsFunc func() ([]models.Season, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
-		// GetGoals holds details about calls to the GetGoals method.
-		GetSeasons []struct {
-		}
-		// SaveGoal holds details about calls to the SaveGoal method.
+		// CreateSeason holds details about calls to the CreateSeason method.
 		CreateSeason []struct {
 			// Goal is the goal argument value.
-			Season *models.Season
+			Goal *models.Season
+		}
+		// GetSeasons holds details about calls to the GetSeasons method.
+		GetSeasons []struct {
 		}
 	}
-	lockGetSeasons sync.RWMutex
 	lockCreateSeason sync.RWMutex
+	lockGetSeasons   sync.RWMutex
 }
 
-// GetGoals calls GetGoalsFunc.
+// CreateSeason calls CreateSeasonFunc.
+func (mock *sessionMock) CreateSeason(goal *models.Season) (*models.Season, error) {
+	if mock.CreateSeasonFunc == nil {
+		panic("sessionMock.CreateSeasonFunc: method is nil but session.CreateSeason was just called")
+	}
+	callInfo := struct {
+		Goal *models.Season
+	}{
+		Goal: goal,
+	}
+	mock.lockCreateSeason.Lock()
+	mock.calls.CreateSeason = append(mock.calls.CreateSeason, callInfo)
+	mock.lockCreateSeason.Unlock()
+	return mock.CreateSeasonFunc(goal)
+}
+
+// CreateSeasonCalls gets all the calls that were made to CreateSeason.
+// Check the length with:
+//
+//	len(mockedsession.CreateSeasonCalls())
+func (mock *sessionMock) CreateSeasonCalls() []struct {
+	Goal *models.Season
+} {
+	var calls []struct {
+		Goal *models.Season
+	}
+	mock.lockCreateSeason.RLock()
+	calls = mock.calls.CreateSeason
+	mock.lockCreateSeason.RUnlock()
+	return calls
+}
+
+// GetSeasons calls GetSeasonsFunc.
 func (mock *sessionMock) GetSeasons() ([]models.Season, error) {
 	if mock.GetSeasonsFunc == nil {
-		panic("sessionMock.GetGoalsFunc: method is nil but session.GetGoals was just called")
+		panic("sessionMock.GetSeasonsFunc: method is nil but session.GetSeasons was just called")
 	}
 	callInfo := struct {
 	}{}
@@ -65,10 +97,10 @@ func (mock *sessionMock) GetSeasons() ([]models.Season, error) {
 	return mock.GetSeasonsFunc()
 }
 
-// GetGoalsCalls gets all the calls that were made to GetGoals.
+// GetSeasonsCalls gets all the calls that were made to GetSeasons.
 // Check the length with:
 //
-//	len(mockedsession.GetGoalsCalls())
+//	len(mockedsession.GetSeasonsCalls())
 func (mock *sessionMock) GetSeasonsCalls() []struct {
 } {
 	var calls []struct {
@@ -76,37 +108,5 @@ func (mock *sessionMock) GetSeasonsCalls() []struct {
 	mock.lockGetSeasons.RLock()
 	calls = mock.calls.GetSeasons
 	mock.lockGetSeasons.RUnlock()
-	return calls
-}
-
-// SaveGoal calls SaveGoalFunc.
-func (mock *sessionMock) CreateSeason(season *models.Season) (*models.Season, error) {
-	if mock.CreateSeasonFunc == nil {
-		panic("sessionMock.SaveGoalFunc: method is nil but session.SaveGoal was just called")
-	}
-	callInfo := struct {
-		Season *models.Season
-	}{
-		Season: season,
-	}
-	mock.lockCreateSeason.Lock()
-	mock.calls.CreateSeason = append(mock.calls.CreateSeason, callInfo)
-	mock.lockCreateSeason.Unlock()
-	return mock.CreateSeasonFunc(season)
-}
-
-// SaveGoalCalls gets all the calls that were made to SaveGoal.
-// Check the length with:
-//
-//	len(mockedsession.SaveGoalCalls())
-func (mock *sessionMock) CreateSeasonCalls() []struct {
-	Season *models.Season
-} {
-	var calls []struct {
-		Season *models.Season
-	}
-	mock.lockCreateSeason.RLock()
-	calls = mock.calls.CreateSeason
-	mock.lockCreateSeason.RUnlock()
 	return calls
 }
