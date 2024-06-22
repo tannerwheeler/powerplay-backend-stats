@@ -73,7 +73,7 @@ components:
       type: object
       properties:
         correlation_id:
-          type: integer
+          type: string
           description: ID associated to the league
           example: 1
         season_id:

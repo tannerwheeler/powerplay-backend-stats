@@ -67,18 +67,14 @@ components:
     PostRosterRequest:
       type: object
       properties:
-        captain_email:
-          type: string
-          description: Email associated to the captain
-          example: test1@test.com
-        player_emails: 
+        captain_id:
+          type: uint
+          description: Id of the captain
+          example: 1
+        players:
           type: array
-          items: 
-            type: string
-          description: User emails associated with the players
-          example: 
-            - test2@test.com
-            - test3@test.com
+          description: Players associated to the roster
+          example: []
 
     RosterModel:
       type: object
@@ -97,18 +93,14 @@ components:
           format: date-time
           description: Updated time for the roster
           example: "2024-06-06T23:41:00.352908346Z"
-        captain_email:
-          type: string
-          description: Email associated to the captain
-          example: test1@test.com
-        player_emails: 
+        captain_id:
+          type: uint
+          description: Id of the captain
+          example: 1
+        players:
           type: array
-          items: 
-            type: string
-          description: User emails associated with the players
-          example: 
-            - test2@test.com
-            - test3@test.com
+          description: Players associated to the roster
+          example: []
 
     PostRosterResponse:
       type: object
