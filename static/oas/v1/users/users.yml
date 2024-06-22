@@ -45,7 +45,7 @@ paths:
         400:
           $ref: "../common/errors.yml#/components/responses/BadRequest"
 
-# made the input schema follow the same format as the database table for users. I also removed fields that would be populated by the server. 
+# made the input schema follow the same format as the database table for users. I also removed fields that would be populated by the server.
 schemas:
   User:
     type: object
