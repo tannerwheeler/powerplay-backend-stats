@@ -132,6 +132,13 @@ func putPenaltyHandler(c *fiber.Ctx) error {
 		return responder.BadRequest(c, "Penalty ID in URL does not match ID in payload")
 	}
 
+	// Validate request
+	validate := validator.New()
+	err = validate.Struct(penaltyRequest)
+	if err != nil {
+		return responder.BadRequest(c, "Failed to validate request")
+	}
+
 	// Update penalty
 	db := db.GetSession(c)
 	penalty, err := db.UpdatePenalty(penaltyRequest)
