@@ -1,6 +1,7 @@
 package components
 
 import (
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/jak103/powerplay/internal/db"
 	"github.com/jak103/powerplay/internal/models"
@@ -9,18 +10,22 @@ import (
 	"github.com/jak103/powerplay/internal/utils/locals"
 	"github.com/jak103/powerplay/internal/utils/log"
 	"github.com/jak103/powerplay/internal/utils/responder"
-	"github.com/go-playground/validator/v10"
 )
 
 func init() {
-	apis.RegisterHandler(fiber.MethodPost, "/rosters", auth.Public, postRoster)
+	apis.RegisterHandler(fiber.MethodPost, "/rosters", auth.Authenticated, postRoster)
 	apis.RegisterHandler(fiber.MethodGet, "/rosters", auth.Public, getRosters)
 }
 
 func postRoster(c *fiber.Ctx) error {
+	// need to setup middleware for auth...
+
+	// Get user that is hitting api
+	// Validate that they are authenticated to hit this endpoint
+
 	type RosterRequest struct {
-		CaptainEmail string   `json:"captain_email"`
-		PlayerEmails []string `json:"player_emails"`
+		CaptainID uint   `json:"captain_id"`
+		PlayerIDs []uint `json:"player_ids"`
 	}
 
 	log := locals.Logger(c)
@@ -41,22 +46,21 @@ func postRoster(c *fiber.Ctx) error {
 
 	db := db.GetSession(c)
 
-	log.Debug("Captain : %s", body.CaptainEmail)
-	capt, err := db.GetUserByEmail(body.CaptainEmail)
+	log.Debug("Captain : %d", body.CaptainID)
+	capt, err := db.GetUserByID(body.CaptainID)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to get captain")
 		return responder.InternalServerError(c)
 	}
-
 
 	if capt == nil {
 		log.WithErr(err).Alert("Captain DNE")
 		return responder.InternalServerError(c)
 	}
 
-	log.Debug("Players : %v", body.PlayerEmails)
-	players, err := db.GetUserByEmails(body.PlayerEmails)
-	if err != nil ||  len(players) == 0 {
+	log.Debug("Players : %v", body.PlayerIDs)
+	players, err := db.GetUsersByIDs(body.PlayerIDs)
+	if err != nil || (len(players) == 0 && len(body.PlayerIDs) > 0) {
 		log.WithErr(err).Alert("Failed to get players")
 		return responder.InternalServerError(c)
 	}
@@ -67,7 +71,7 @@ func postRoster(c *fiber.Ctx) error {
 		Players:   players,
 	}
 
-	err = db.CreateRoster(&roster)
+	_, err = db.CreateRoster(&roster)
 	if err != nil {
 		log.WithErr(err).Alert("Failed to save roster request")
 		return responder.InternalServerError(c)
