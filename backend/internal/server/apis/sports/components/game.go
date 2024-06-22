@@ -8,17 +8,16 @@ import (
 	"github.com/jak103/powerplay/internal/server/services/auth"
 	"github.com/jak103/powerplay/internal/utils/log"
 	"github.com/jak103/powerplay/internal/utils/responder"
-	"github.com/go-playground/validator/v10"
 )
 
 func init() {
 	apis.RegisterHandler(fiber.MethodPost, "/game", auth.Authenticated, handleCreateGame)
-	apis.RegisterHandler(fiber.MethodPost, "//games", auth.Authenticated, handleCreateGames)
-	apis.RegisterHandler(fiber.MethodGet, "/games/:id", auth.Authenticated, handleGetGame)
+	apis.RegisterHandler(fiber.MethodPost, "/games", auth.Authenticated, handleCreateGames)
+	apis.RegisterHandler(fiber.MethodGet, "/game/:id", auth.Authenticated, handleGetGame)
 	apis.RegisterHandler(fiber.MethodGet, "/games", auth.Authenticated, handleGetGames)
-	apis.RegisterHandler(fiber.MethodPut, "/games/:id", auth.Authenticated, handleUpdateGame)
+	apis.RegisterHandler(fiber.MethodPut, "/game/:id", auth.Authenticated, handleUpdateGame)
 	apis.RegisterHandler(fiber.MethodPut, "/games", auth.Authenticated, handleUpdateGames)
-	apis.RegisterHandler(fiber.MethodDelete, "/games/:id", auth.Authenticated, handleDeleteGame)
+	apis.RegisterHandler(fiber.MethodDelete, "/game/:id", auth.Authenticated, handleDeleteGame)
 	apis.RegisterHandler(fiber.MethodDelete, "/games", auth.Authenticated, handleDeleteGames)
 }
 
@@ -39,7 +38,7 @@ func handleCreateGame(c *fiber.Ctx) error {
 		log.Error("Failed to save game to the database")
 		return responder.InternalServerError(c, err)
 	}
-	return responder.Ok(c, game)
+	return responder.CreatedWithData(c, game)
 }
 
 func handleCreateGames(c *fiber.Ctx) error {
@@ -59,7 +58,7 @@ func handleCreateGames(c *fiber.Ctx) error {
 		log.Error("Failed to save games to the database")
 		return responder.InternalServerError(c, err)
 	}
-	return responder.Ok(c, games)
+	return responder.CreatedWithData(c, games)
 }
 
 func handleGetGame(c *fiber.Ctx) error {
@@ -107,25 +106,11 @@ func handleUpdateGame(c *fiber.Ctx) error {
 		Id   uint        `json:"id"`
 		Game models.Game `json:"game"`
 	}
-<<<<<<< HEAD
-
-	// Validate request
-	validate := validator.New()
-	err := validate.Struct(game)
-	if err != nil {
-		return responder.BadRequest(c, "Failed to validate request")
-	}
-
-	if err := db.CreateGame(&game); err != nil {
-		log.WithErr(err).Alert("Failed to create Game in the database")
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-=======
 	var dto Dto
 	err := c.BodyParser(&dto)
 	if err != nil {
 		log.Error("Failed to parse request body")
 		return responder.BadRequest(c, fiber.StatusBadRequest, err.Error())
->>>>>>> 0836c02e13762fe3515ba57a60d0fdfd2082360e
 	}
 	game := dto.Game
 	id := dto.Id

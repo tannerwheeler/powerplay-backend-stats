@@ -33,6 +33,18 @@ func Ok(c *fiber.Ctx, message ...any) error {
 	return respond(c, fiber.StatusOK, nil, message...)
 }
 
+// 201
+func CreatedWithData(c *fiber.Ctx, data any, message ...any) error {
+	jsonBytes, err := json.Marshal(data)
+	if err != nil {
+		return InternalServerError(c)
+	}
+
+	raw := json.RawMessage(jsonBytes)
+
+	return respond(c, fiber.StatusCreated, &raw, message...)
+}
+
 // 400
 func BadRequest(c *fiber.Ctx, message ...any) error {
 	return respond(c, fiber.StatusBadRequest, nil, message...)

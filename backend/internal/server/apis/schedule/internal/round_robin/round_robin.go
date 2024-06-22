@@ -116,9 +116,9 @@ func newGame(team1, team2 models.Team, seasonId uint, venue models.Venue) models
 	// TODO: This should probably create new rosters along with the game
 	return models.Game{
 		SeasonID: seasonId,
-		HomeTeam: team1,
-		AwayTeam: team2,
-		Venue:    venue,
+		HomeTeam: &team1,
+		AwayTeam: &team2,
+		Venue:    &venue,
 	}
 }
 

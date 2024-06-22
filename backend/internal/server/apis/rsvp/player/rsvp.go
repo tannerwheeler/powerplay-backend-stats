@@ -1,12 +1,13 @@
 package player
 
 import (
+	"strconv"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/jak103/powerplay/internal/db"
 	"github.com/jak103/powerplay/internal/server/apis"
 	"github.com/jak103/powerplay/internal/server/services/auth"
 	"github.com/jak103/powerplay/internal/utils/responder"
-	"strconv"
 )
 
 func init() {
@@ -46,19 +47,19 @@ func handleRsvp(c *fiber.Ctx) error {
 			return responder.InternalServerError(c, err.Error())
 		}
 
-		user, err := session.GetUserById(body.UserId)
+		user, err := session.GetUserByID(body.UserId)
 		if err != nil {
 			return responder.InternalServerError(c, err.Error())
 		}
 
 		// Check if the team they are rsvp'ing for is home or away team
-		if team == &game.HomeTeam {
+		if team == game.HomeTeam {
 			_ = append(game.HomeTeamRoster.Players, user)
 			session.SaveGame(*game)
 			return responder.Ok(c, "Successfully rsvp'd for %v", team.Name)
 		}
 
-		if team == &game.AwayTeam {
+		if team == game.AwayTeam {
 			_ = append(game.HomeTeamRoster.Players, user)
 			session.SaveGame(*game)
 			return responder.Ok(c, "Successfully rsvp'd for %v", team.Name)
