@@ -5,49 +5,61 @@ import (
 	"github.com/jak103/powerplay/internal/utils/log"
 )
 
-// GetGames retrieves all games from the database.
-func (s *session) GetGames() ([]models.Game, error) {
-	print("made it to get games")
-	games := make([]models.Game, 0)
-	err := s.Find(&games).Error
-	if err != nil {
-		log.WithErr(err).Alert("Failed to retrieve games from database")
-		return nil, err
-	}
-	return games, nil
-}
-
-// GetGameByID retrieves a game by its ID from the database.
-func (s *session) GetGameByID(gameID string) (*models.Game, error) {
-	var game models.Game
-	err := s.First(&game, "id = ?", gameID).Error
-	if err != nil {
-		log.WithErr(err).Alert("Failed to retrieve game from database")
-		return nil, err
-	}
-	return &game, nil
-}
-
-// UpdateGame updates an existing game in the database.
-func (s *session) UpdateGame(gameID string, game models.Game) error {
-	var existingGame models.Game
-	err := s.First(&existingGame, "id = ?", gameID).Error
-	if err != nil {
-		log.WithErr(err).Alert("Failed to find existing game in database")
-		return err
-	}
-	err = s.Model(&existingGame).Updates(game).Error
-	if err != nil {
-		log.WithErr(err).Alert("Failed to update game in database")
-	}
-	return err
-}
-
-// CreateGame creates a new game in the database.
 func (s *session) CreateGame(game *models.Game) error {
 	err := s.Create(game).Error
 	if err != nil {
 		log.WithErr(err).Alert("Failed to create game in database")
 	}
 	return err
+}
+
+func (s *session) CreateGames(games []models.Game) ([]models.Game, error) {
+	result := s.CreateInBatches(games, len(games))
+	return resultsOrError(games, result)
+}
+
+func (s *session) GetGame(id uint) (*models.Game, error) {
+	game := models.Game{}
+	result := s.First(&game, id)
+	return resultOrError(&game, result)
+}
+
+func (s *session) GetGames() (*[]models.Game, error) {
+	games := make([]models.Game, 0)
+	result := s.Find(&games)
+	return resultOrError(&games, result)
+}
+
+func (s *session) GetGamesBySeason(seasonId uint) (*[]models.Game, error) {
+	games := make([]models.Game, 0)
+	result := s.Where(&models.Game{SeasonID: seasonId}).Find(&games)
+	return resultOrError(&games, result)
+}
+
+func (s *session) GetGameById(id uint) (*models.Game, error) {
+	game := &models.Game{}
+	err := s.Preload("AwayTeam").Preload("HomeTeam").Find(&game, "id = ?", id)
+	return resultOrError(game, err)
+}
+
+func (s *session) UpdateGame(id uint, game models.Game) (*models.Game, error) {
+	// use the id to update the game
+	game.ID = id
+	result := s.Save(&game)
+	return resultOrError(&game, result)
+}
+
+func (s *session) UpdateGames(games []models.Game) ([]models.Game, error) {
+	result := s.Save(games)
+	return resultsOrError(games, result)
+}
+
+func (s *session) DeleteGame(id uint) error {
+	result := s.Delete(&models.Game{}, id)
+	return result.Error
+}
+
+func (s *session) DeleteGames(seasonId uint) error {
+	result := s.Where(&models.Game{SeasonID: seasonId}).Delete(&models.Game{})
+	return result.Error
 }
