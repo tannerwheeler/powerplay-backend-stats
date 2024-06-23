@@ -1,20 +1,5 @@
 paths:
-  /games:
-    get:
-      tags:
-        - Games
-      summary: All Games
-      description: |
-        Get all games  
-      responses:
-        200:
-          description: The response body should contain the list of leagues
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetGamesResponse'
-        400:
-          $ref: "../../common/errors.yml#/components/responses/BadRequest"
+  /game:
     post:
       tags:
         - Games
@@ -28,12 +13,61 @@ paths:
             schema:
               $ref: '#/components/schemas/Game'
       responses:
-        200:
+        201:
           description: Game created successfully
         400:
           $ref: "../../common/errors.yml#/components/responses/BadRequest"
 
-  /games/{gameId}:
+  /games:
+    post:
+      tags:
+        - Games
+      summary: Create Multiple Games
+      description: Create multiples games
+      requestBody:
+        description: JSON object with valid games
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      responses:
+        201:
+          description: Games created successfully
+        400:
+          $ref: "../../common/errors.yml#/components/responses/BadRequest"
+    get:
+      tags:
+        - Games
+      summary: All Games
+      description: Get all games  
+      responses:
+        200:
+          description: The response body should contain the list of all games
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetGamesResponse'
+        400:
+          $ref: "../../common/errors.yml#/components/responses/BadRequest"  
+    put:
+      tags:
+        - Games
+      summary: Update Multiple Games
+      description: Update multiple game details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Game'
+      responses:
+        201:
+          description: Games updated successfully
+        400:
+          $ref: "../../common/errors.yml#/components/responses/BadRequest"
+
+  /game/{gameId}:
     get:
       tags:
         - Games
@@ -72,8 +106,51 @@ paths:
             schema:
               $ref: '#/components/schemas/Game'
       responses:
-        200:
+        201:
           description: Game updated successfully
+        400:
+          $ref: "../../common/errors.yml#/components/responses/BadRequest"
+
+  /games/{id}:
+    get:
+      tags:
+        - Games
+      summary: Game by Season
+      description: Get game details by Season
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: The response body should contain the game details for the given Season
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+        400:
+          $ref: "../../common/errors.yml#/components/responses/BadRequest"
+    delete:
+      tags:
+        - Games
+      summary: Delete Game By ID
+      description: Deletes a game
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the game to delete
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Successfully deleted a game
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
         400:
           $ref: "../../common/errors.yml#/components/responses/BadRequest"
 
@@ -110,21 +187,20 @@ components:
           type: string
           format: date-time
           example: "2023-01-02T12:00:00Z"
+        season_id:
+          type: integer
+          example: 1
         start:
           type: string
           format: date-time
           example: "2023-01-01T12:00:00Z"
-        end:
-          type: string
-          format: date-time
-          example: "2023-01-01T14:00:00Z"
         status:
           type: string
           enum: [SCHEDULED, IN_PROGRESS, FINAL]
           example: "SCHEDULED"
         home_team_id:
           type: integer
-          example: 2
+          example: 1
         home_team_locker_room:
           type: string
           example: "Locker Room B"
@@ -134,9 +210,6 @@ components:
         home_team_score:
           type: integer
           example: 3
-        home_team_roster_id:
-          type: integer
-          example: 1
         away_team_id:
           type: integer
           example: 2
@@ -149,15 +222,9 @@ components:
         away_team_score:
           type: integer
           example: 2
-        away_team_roster_id:
-          type: integer
-          example: 1
         venue_id:
           type: integer
           example: 1
-        league_id:
-          type: integer
-          example: 3
         manager_on_call_id:
           type: integer
           example: 1
@@ -170,7 +237,5 @@ components:
         secondary_referee_id:
           type: integer
           example: 1
-        season_id:
-          type: integer
-          example: 1
+
 

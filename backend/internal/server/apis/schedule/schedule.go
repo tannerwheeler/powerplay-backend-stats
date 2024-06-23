@@ -58,7 +58,7 @@ func handleOptimizeGames(c *fiber.Ctx) error {
 	seasonID := dto.SeasonID
 	// read from db
 	session := db.GetSession(c)
-	games, err := session.GetGames(seasonID)
+	games, err := session.GetGamesBySeason(seasonID)
 	if err != nil {
 		log.Info("Failed to get games from the database\n")
 		return responder.InternalServerError(c, err)
@@ -76,7 +76,7 @@ func handleOptimizeGames(c *fiber.Ctx) error {
 
 	// write to the db
 	assignLockerRooms(*games)
-	_, err = session.SaveGames(*games)
+	_, err = session.CreateGames(*games)
 	if err != nil {
 		log.Info("Failed to save games to the database\n")
 		return responder.InternalServerError(c, err)
@@ -166,7 +166,7 @@ func handleCreateGames(c *fiber.Ctx) error {
 	seasonStats, ts = analysis.RunTimeAnalysis(bestGames)
 
 	// save to db
-	_, err = session.SaveGames(bestGames)
+	_, err = session.CreateGames(bestGames)
 	if err != nil {
 		log.Info("Failed to save games to the database\n")
 		return responder.InternalServerError(c, err.Error())

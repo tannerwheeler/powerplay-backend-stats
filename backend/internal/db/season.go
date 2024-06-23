@@ -4,7 +4,7 @@ import "github.com/jak103/powerplay/internal/models"
 
 func (s session) GetSeasons() ([]models.Season, error) {
 	seasons := make([]models.Season, 0)
-	err := s.Preload("Leagues").Preload("Leagues.Teams").Find(&seasons)
+	err := s.Preload("Leagues").Preload("Leagues.Teams").Preload("Schedule").Find(&seasons)
 	return resultsOrError(seasons, err)
 }
 

@@ -55,13 +55,13 @@ func handleRsvp(c *fiber.Ctx) error {
 		// Check if the team they are rsvp'ing for is home or away team
 		if team == game.HomeTeam {
 			_ = append(game.HomeTeamRoster.Players, user)
-			session.SaveGame(*game)
+			session.CreateGame(game)
 			return responder.Ok(c, "Successfully rsvp'd for %v", team.Name)
 		}
 
 		if team == game.AwayTeam {
 			_ = append(game.HomeTeamRoster.Players, user)
-			session.SaveGame(*game)
+			session.CreateGame(game)
 			return responder.Ok(c, "Successfully rsvp'd for %v", team.Name)
 		}
 	}

@@ -16,9 +16,15 @@ tags:
     x-tag-expanded: false
   - name: Logos
     x-tag-expanded: false
+  - name: Penalties
+    x-tag-expanded: false
   - name: Rosters
     x-tag-expanded: false
+  - name: Rsvp
+    x-tag-expanded: false
   - name: Seasons
+    x-tag-expanded: false
+  - name: Schedule
     x-tag-expanded: false
   - name: Stats
     x-tag-expanded: false
@@ -32,10 +38,14 @@ paths:
   #$ref: "./[Relative path starting from v1]#/paths/[yml path]"
   /auth:
     $ref: "./auth/auth.yml#/paths/auth"
+  /game:
+    $ref: "./sports/components/games.yml#/paths/~1game"
+  /game/{gameId}:
+    $ref: "./sports/components/games.yml#/paths/~1game~1{gameId}"
   /games:
     $ref: "./sports/components/games.yml#/paths/~1games"
-  /games/{gameId}:
-    $ref: "./sports/components/games.yml#/paths/~1games~1{gameId}"
+  /games/{id}:
+    $ref: "./sports/components/games.yml#/paths/~1games~1{id}"
   /games/{gameId}/penalties:
     $ref: "./sports/stats/penalties.yml#/paths/~1games~1{gameId}~1penalties"
   /goals:
@@ -56,8 +66,12 @@ paths:
     $ref: "./sports/stats/penaltyTypes.yml#/paths/~1penaltyTypes~1{id}"
   /rosters:
     $ref: "./sports/components/rosters.yml#/paths/rosters"
+  /rsvp/player:
+    $ref: "./rsvp/rsvp.yml#paths/player"
   /seasons:
     $ref: "./sports/components/seasons.yml#/paths/seasons"
+  /schedule:
+    $ref: "./schedule/schedule.yml#/paths/schedule"
   /shotsongoal:
     $ref: "./sports/stats/shotsongoal.yml#/paths/shotsOnGoal"
   /teams:
@@ -72,10 +86,6 @@ paths:
     $ref: "./sports/stats/penalties.yml#/paths/~1users~1{playerID}~1penalties" # Path mismatch with above
   /venues:
     $ref: "./sports/stats/venues.yml#/paths/venues"
-  /schedule:
-    $ref: "./schedule/schedule.yml#/paths/schedule"
-  /rsvp/player:
-    $ref: "./rsvp/rsvp.yml#paths/player"
 
 components:
   securitySchemes:
